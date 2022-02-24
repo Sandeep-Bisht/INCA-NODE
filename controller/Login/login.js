@@ -1,8 +1,8 @@
 var jwt = require('jsonwebtoken');
 let users = require('../../models/user')
 
-function generateAccessToken(id) {
-    return jwt.sign({ id }, "6210607b75c134501baa290c", { expiresIn: '1800s' });
+function generateAccessToken(user) {
+    return jwt.sign({ user }, "6210607b75c134501baa290c", { expiresIn: '1800s' });
 }
 
 
@@ -17,7 +17,7 @@ exports.login = async (req, res) => {
         if (user) {
             if (user.userEmail.trim().toLowerCase() == userEmail.trim().toLowerCase() &&
                 user.password.trim().toLowerCase() == password.trim().toLowerCase()) {
-                let token = generateAccessToken(user._id)
+                let token = generateAccessToken({ user })
                 res.send({ token, message: "Logged in successfully" })
             }
 

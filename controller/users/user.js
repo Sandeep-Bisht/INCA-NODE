@@ -1,6 +1,5 @@
 let users = require('../../models/user')
-
-exports.getUsers = async(req, res) => {
+exports.getUsers = async (req, res) => {
     try {
         let response = await users.find()
         res.send(response)
@@ -10,7 +9,7 @@ exports.getUsers = async(req, res) => {
     }
 }
 
-exports.deleteUser = async(req, res) => {
+exports.deleteUser = async (req, res) => {
     var id = req.params.id;
     users.deleteOne({ id: id }, (err, result) => {
         if (err) {

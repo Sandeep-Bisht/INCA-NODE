@@ -46,7 +46,7 @@ let sendEmailViaSmtp = async (userEmail) => {
 
 let addUniqueUsers = async (userEmail) => {
     const res = await users.findOne({ userEmail: userEmail })
-    if(res !== null){
+    if (res !== null) {
         return false
     }
     return true
@@ -57,7 +57,7 @@ exports.register = async (req, res) => {
     let emailSendStatus;
     let { userName, userEmail, mobileNumber } = req.body
     if (userEmail && userName && mobileNumber) {
-        if(await addUniqueUsers(userEmail)){
+        if (await addUniqueUsers(userEmail)) {
             let user = new users({
                 userName,
                 userEmail,
@@ -67,10 +67,10 @@ exports.register = async (req, res) => {
             try {
                 let saveEntry = await user.save()
                 let response = await sendEmailViaSmtp(userEmail)
-                if(response.messageId){
+                if (response.messageId) {
                     emailSendStatus = true
                 }
-                else{
+                else {
                     emailSendStatus = false
                 }
                 res.send({ emailSendStatus, message: "User registred", })
@@ -80,7 +80,7 @@ exports.register = async (req, res) => {
             }
         }
         else {
-            res.send({message:"user is already registered with this email"})
+            res.send({ message: "user is already registered with this email" })
         }
     }
     else {
