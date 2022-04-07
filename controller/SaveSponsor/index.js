@@ -10,3 +10,13 @@ exports.saveSponsor = async (req, res) => {
         res.send({ message: "Error occured while saving sponsor", error })
     }
 }
+
+exports.getSponsors = async(req, res) => {
+    try {
+        let response = await sponsor.find()
+        res.send(response)
+
+    } catch (error) {
+        res.send({ message: "Error occured while fetching records" })
+    }
+}
