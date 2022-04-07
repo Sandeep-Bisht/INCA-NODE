@@ -35,7 +35,6 @@ let sendEmailViaSmtp = async (userEmail) => {
         });
 
         if (info.messageId) {
-            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
             return info
         }
     }
@@ -55,7 +54,7 @@ let addUniqueUsers = async (userEmail) => {
 
 exports.register = async (req, res) => {
     let emailSendStatus;
-    let { userName, userEmail, mobileNumber } = req.body
+    let { userName, userEmail, mobileNumber,  } = req.body
     if (userEmail && userName && mobileNumber) {
         if (await addUniqueUsers(userEmail)) {
             let user = new users({

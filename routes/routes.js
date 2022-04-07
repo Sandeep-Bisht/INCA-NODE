@@ -8,8 +8,8 @@ const { forgotPassword, verifyRegisteredEmail, changePassword } = require('../co
 const { getUsers,  deleteUser } = require('../controller/users/user')
 const { saveRegistredUserInfo } = require('../controller/SaveRegistredUserInfo')
 const { getAllRegistredUsersData } = require('../controller/GetRegistredUserInfo')
+const { saveSponsor } = require('../controller/SaveSponsor')
 const { handle404Route } = require('../controller/404')
-
 
 
 router.post('/signup', register)
@@ -21,6 +21,7 @@ router.post('/changepassword', checkAuthentication, changePassword)
 router.post('/forgot', checkAuthentication, forgotPassword)
 router.post('/saveregistreduser', checkAuthentication, saveRegistredUserInfo)
 router.get('/getregistreduserinfo', checkAuthentication, getAllRegistredUsersData)
+router.post('/savesponsor',  saveSponsor )
 router.get('/*', handle404Route ) 
 
 module.exports = router; 

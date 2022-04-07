@@ -24,7 +24,6 @@ let sendEmailViaSmtp = async (userEmail) => {
         });
 
         if (info.messageId) {
-            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
             return info
         }
     }
