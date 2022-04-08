@@ -22,7 +22,7 @@ router.post('/forgot', checkAuthentication, forgotPassword)
 router.post('/saveregistreduser', checkAuthentication, saveRegistredUserInfo)
 router.get('/getregistreduserinfo', checkAuthentication, getAllRegistredUsersData)
 router.post('/savesponsor',  saveSponsor )
-router.get('/sponsor', checkAuthentication,  getSponsors)
+router.get('/sponsor',  getSponsors)
 router.get('/*', handle404Route ) 
 
 module.exports = router; 
