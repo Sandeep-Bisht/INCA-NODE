@@ -10,3 +10,5 @@ exports.saveRegistredUserInfo = async (req, res) => {
         res.send({ message: "Error occured while saving user info", error })
     }
 }
+
+

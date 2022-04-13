@@ -54,13 +54,14 @@ let addUniqueUsers = async (userEmail) => {
 
 exports.register = async (req, res) => {
     let emailSendStatus;
-    let { userName, userEmail, mobileNumber,  } = req.body
+    let { userName, userEmail, mobileNumber, role  } = req.body
     if (userEmail && userName && mobileNumber) {
         if (await addUniqueUsers(userEmail)) {
             let user = new users({
                 userName,
                 userEmail,
                 mobileNumber,
+                role,
                 password: generatePassword()
             })
             try {
