@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 let users = require('../models/user')
 
 
+
 exports.checkAuthentication = (req, res, next) => {
     const { authorization } = req.headers ;
     if(!authorization){
@@ -15,3 +16,5 @@ exports.checkAuthentication = (req, res, next) => {
         next(); 
      })
 }
+
+
