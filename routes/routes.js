@@ -35,7 +35,7 @@ const { getUsers,  deleteUser } = require('../controller/users/user')
 const { saveRegistredUserInfo } = require('../controller/SaveRegistredUserInfo')
 const { getAllRegistredUsersData, updateSaveRegistredUserInfoById, getRegistredUserInfoById } = require('../controller/GetRegistredUserInfo')
 const { saveSponsor, getSponsors } = require('../controller/SaveSponsor')
-const { uploadUserFiles } = require('../controller/FileSubmission')
+const { uploadUserFiles, saveAbstractPaper, getAbstractPaper } = require('../controller/AbstractFileSubmission')
 const { getCounters } = require('../controller/Counters')
 const { handle404Route } = require('../controller/404')
 
@@ -52,9 +52,13 @@ router.get('/getregistreduserinfo', checkAuthentication, getAllRegistredUsersDat
 router.put('/updateregisteruserinfo/:id', checkAuthentication, updateSaveRegistredUserInfoById)
 router.get('/getsaveregistreduserinfo/:id',checkAuthentication, getRegistredUserInfoById )
 router.post('/savesponsor',  saveSponsor )
-router.post('/uploaddocument',checkAuthentication, upload.single("file"), uploadUserFiles)
+router.post('/uploaddocument', 
+upload.single("file"), uploadUserFiles)
 router.get('/sponsor', checkAuthentication,  getSponsors)
-router.get('/counters', getCounters)
+router.get('/counters', checkAuthentication, getCounters)
+router.post('/saveabstractpaper', saveAbstractPaper);
+router.get('/getabstractpaper', getAbstractPaper)
+
 router.get('/*', handle404Route ) 
 
 module.exports = router; 
