@@ -11,8 +11,6 @@ exports.login = async (req, res) => {
     if (userEmail == "" && password == "") {
         return res.send({ message: "Please fill the field" })
     }
-
-    else {
         let user = await users.findOne({ userEmail })
         if (user) {
             if (user.userEmail.trim().toLowerCase() == userEmail.trim().toLowerCase() &&
@@ -30,7 +28,7 @@ exports.login = async (req, res) => {
             }
         }
         else {
-            res.send({ message: "Please enter valid email and password" })
+            res.send({token : '',  message: "Please enter valid email and password" })
         }
-    }
+    
 }

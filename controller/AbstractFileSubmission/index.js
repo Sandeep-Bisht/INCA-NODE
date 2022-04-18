@@ -10,8 +10,8 @@ exports.uploadUserFiles = async (req, res) => {
 }
 
 exports.saveAbstractPaper = async(req, res) => {
-   const {abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl} =  req.body
-    let abstractData = new abstractPaper({abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl})
+   const {abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId} =  req.body
+    let abstractData = new abstractPaper({abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId})
     try {
         let ressult = await abstractData.save()
         res.send({ message: "data saved successfully", })
