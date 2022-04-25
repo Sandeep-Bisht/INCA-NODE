@@ -6,7 +6,6 @@ const multer = require('multer')
 const fileStorageEngine =  multer.diskStorage({
     destination: (req, file, cb ) => {
         cb(null, './files')
-
     },
     filename:(req, file, cb ) => {
         cb(null, Date.now() + "--" + file.originalname)
@@ -37,27 +36,28 @@ const { getAllRegistredUsersData, updateSaveRegistredUserInfoById, getRegistredU
 const { saveSponsor, getSponsors } = require('../controller/SaveSponsor')
 const { uploadUserFiles, saveAbstractPaper, getAbstractPaper } = require('../controller/AbstractFileSubmission')
 const { getCounters } = require('../controller/Counters')
+const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserExcel')
 const { handle404Route } = require('../controller/404')
 
 
 router.post('/signup', register)
 router.post('/login', login)
-router.get('/users', checkAuthentication,   getUsers )
-router.delete('/user/:id', checkAuthentication, deleteUser)
-router.post('/verify', checkAuthentication, verifyRegisteredEmail)
-router.post('/changepassword', checkAuthentication, changePassword)
-router.post('/forgot', checkAuthentication, forgotPassword)
+router.get('/users', checkAuthentication, getUsers )
+// router.put('/user/:id', deleteUser)
+// router.post('/verify', checkAuthentication, verifyRegisteredEmail)
+// router.post('/changepassword', checkAuthentication, changePassword)
+// router.post('/forgot', checkAuthentication, forgotPassword)
 router.post('/saveregistreduser', checkAuthentication, saveRegistredUserInfo)
 router.get('/getregistreduserinfo', checkAuthentication, getAllRegistredUsersData)
 router.put('/updateregisteruserinfo/:id', checkAuthentication, updateSaveRegistredUserInfoById)
 router.get('/getsaveregistreduserinfo/:id',checkAuthentication, getRegistredUserInfoById )
 router.post('/savesponsor',  saveSponsor )
-router.post('/uploaddocument', 
-upload.single("file"), uploadUserFiles)
+router.post('/uploaddocument', upload.single("file"), uploadUserFiles)
 router.get('/sponsor', checkAuthentication,  getSponsors)
 router.get('/counters', checkAuthentication, getCounters)
-router.post('/saveabstractpaper', saveAbstractPaper);
-router.get('/getabstractpaper', getAbstractPaper)
+router.post('/saveabstractpaper', checkAuthentication, saveAbstractPaper);
+router.get('/getabstractpaper', checkAuthentication, getAbstractPaper)
+router.get('/downloadexcel',  getRegistredUserExcel)
 
 router.get('/*', handle404Route ) 
 

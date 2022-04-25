@@ -14,7 +14,7 @@ exports.login = async (req, res) => {
         let user = await users.findOne({ userEmail })
         if (user) {
             if (user.userEmail.trim().toLowerCase() == userEmail.trim().toLowerCase() &&
-                user.password.trim().toLowerCase() == user.password.trim().toLowerCase()) {
+                user.password.trim().toLowerCase() == password.trim().toLowerCase()) {
                 let token = generateAccessToken({ user })
                 res.send({ token, message: "Logged in successfully" })
             }

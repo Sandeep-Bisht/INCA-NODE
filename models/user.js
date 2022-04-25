@@ -6,6 +6,7 @@ const userSchema = new Schema({
     mobileNumber:{ type:String },
     role:{ type:String },
     password: { type: String, require:true },
+    status: { type: Boolean},
 },{timestamps: true} 
 )
 
