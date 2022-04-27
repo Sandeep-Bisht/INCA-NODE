@@ -20,11 +20,11 @@ exports.login = async (req, res) => {
             }
 
             else if (user.userEmail.trim().toLowerCase() !== userEmail.trim().toLowerCase()) {
-                res.status(401).send("Please enter valid email")
+                res.status(401).send({message:"Please enter valid email"})
             }
 
             else if (user.password.trim().toLowerCase() !== password.trim().toLowerCase()) {
-                res.status(401).send("Please enter valid password")
+                res.status(401).send({message:"Please enter valid password"})
             }
         }
         else {
