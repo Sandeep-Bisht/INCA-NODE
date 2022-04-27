@@ -5,11 +5,11 @@ let sponsor = require('../../models/sponser')
 exports.getCounters = async (req, res) => {
     let userCount = await users.count()
     let registredUserInforCount = await registredUserInfo.count()
+    let presentCount =  await registredUserInfo.find({attendanceStatus:true}).count()
     let sponserCount = await sponsor.count()
     let response = [{
         type: "user",
         counter: 0,
-
     },
     {
         type: "sponser",
@@ -20,7 +20,12 @@ exports.getCounters = async (req, res) => {
         type: "registred",
         counter: 0,
 
-    }
+    },
+    {
+        type:"present",
+        counter:0
+    },
+    
     ]
     try {
         if (userCount > -1) {
@@ -33,6 +38,10 @@ exports.getCounters = async (req, res) => {
 
         if (registredUserInforCount > -1) {
             response[2].counter = registredUserInforCount
+        }
+
+        if (presentCount > -1) {
+            response[3].counter = presentCount
         }
 
         res.send({ response })
