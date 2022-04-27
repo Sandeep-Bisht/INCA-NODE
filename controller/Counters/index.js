@@ -25,7 +25,10 @@ exports.getCounters = async (req, res) => {
         type:"present",
         counter:0
     },
-    
+    {
+        type:"absent",
+        counter:0
+    }
     ]
     try {
         if (userCount > -1) {
@@ -42,6 +45,10 @@ exports.getCounters = async (req, res) => {
 
         if (presentCount > -1) {
             response[3].counter = presentCount
+        }
+
+        if (registredUserInforCount > -1 && presentCount > -1) {
+            response[4].counter = registredUserInforCount - presentCount
         }
 
         res.send({ response })
