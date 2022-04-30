@@ -1,7 +1,6 @@
 let abstractPaper = require('../../models/abstractPaper')
 
 exports.uploadUserFiles = async (req, res) => {
-    console.log(req.file, 'valueeee')
     try {
        return res.send({message:"file uploaded", data:req.file})
     }

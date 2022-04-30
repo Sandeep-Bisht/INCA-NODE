@@ -10,11 +10,11 @@ exports.checkAuthentication = (req, res, next) => {
     }
      const token = authorization.replace("Bearer ", "");
      jwt.verify(token,"6210607b75c134501baa290c", async(err,payload)=>{
-         if(err){
+        if(err){
             return res.status(401).send({error:"You must be login"})
-         }
+        }
         next(); 
-     })
+    })
 }
 
 
