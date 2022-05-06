@@ -28,7 +28,7 @@ exports.login = async (req, res) => {
             }
         }
         else {
-            res.send({token : '',  message: "Please enter valid email and password" })
+            res.status(401).send({token : '',  message: "Please enter valid email and password" })
         }
     
 }
