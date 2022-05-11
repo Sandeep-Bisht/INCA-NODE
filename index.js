@@ -15,8 +15,8 @@ app.use('/api', routes)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
+  console.log(`server is runningss on PORTs ${PORT}`)
 })
-
 
 
 

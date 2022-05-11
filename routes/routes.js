@@ -37,17 +37,13 @@ const { saveSponsor, getSponsors } = require('../controller/SaveSponsor')
 const { uploadUserFiles, saveAbstractPaper, getAbstractPaper } = require('../controller/AbstractFileSubmission')
 const { getCounters } = require('../controller/Counters')
 const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserExcel')
-const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInforForAttendance } = require('../controller/AttendanceStatus')
+const { verifyAttendanceStatus, verifyAttendanceStatusByPassword } = require('../controller/AttendanceStatus')
 const { handle404Route } = require('../controller/404')
 
 
 router.post('/signup', register)
 router.post('/login', login)
 router.get('/users', checkAuthentication, getUsers )
-// router.put('/user/:id', deleteUser)
-// router.post('/verify', checkAuthentication, verifyRegisteredEmail)
-// router.post('/changepassword', checkAuthentication, changePassword)
-// router.post('/forgot', checkAuthentication, forgotPassword)
 router.post('/saveregistreduser', checkAuthentication, saveRegistredUserInfo)
 router.get('/getregistreduserinfo', checkAuthentication, getAllRegistredUsersData)
 router.put('/updateregisteruserinfo/:id', checkAuthentication, updateSaveRegistredUserInfoById)
@@ -61,7 +57,7 @@ router.get('/getabstractpaper', checkAuthentication, getAbstractPaper)
 router.get('/downloadexcel',  getRegistredUserExcel),
 router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
 router.post('/markattendances', verifyAttendanceStatusByPassword )
-router.get('/getuserinfoforattendance/:id', checkAuthentication, getUserInforForAttendance)
+//router.get('/getuserinfoforattendance/:id', checkAuthentication, getUserInforForAttendance)
 
 router.get('/*', handle404Route ) 
 
