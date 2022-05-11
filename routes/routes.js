@@ -37,7 +37,7 @@ const { saveSponsor, getSponsors } = require('../controller/SaveSponsor')
 const { uploadUserFiles, saveAbstractPaper, getAbstractPaper } = require('../controller/AbstractFileSubmission')
 const { getCounters } = require('../controller/Counters')
 const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserExcel')
-const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInforForAttendance } = require('../controller/AttendanceStatus')
+const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInfoForAttendance } = require('../controller/AttendanceStatus')
 const { handle404Route } = require('../controller/404')
 
 
@@ -61,7 +61,7 @@ router.get('/getabstractpaper', checkAuthentication, getAbstractPaper)
 router.get('/downloadexcel',  getRegistredUserExcel),
 router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
 router.post('/markattendances', verifyAttendanceStatusByPassword )
-router.get('/getuserinfoforattendance/:id', checkAuthentication, getUserInforForAttendance)
+router.get('/getuserinfoforattendance/:id', checkAuthentication, getUserInfoForAttendance)
 
 router.get('/*', handle404Route ) 
 
