@@ -13,6 +13,17 @@ exports.verifyAttendanceStatus = async (req, res) => {
     }
 }
 
+exports.getUserInforForAttendance = async (req, res) => {
+    var id = req.params.id;
+    let user = await registredUserInfo.find({_id:id})
+    try {
+        res.json({ message: "Request completed successfully", data:user })
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
 exports.verifyAttendanceStatusByPassword = async (req, res) => {
     var {id, password} = req.body
     if(id && password === "inca1234"){

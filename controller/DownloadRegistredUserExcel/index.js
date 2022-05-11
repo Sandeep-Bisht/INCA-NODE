@@ -2,7 +2,6 @@ let registredUserInfo = require('../../models/registredUserInfo')
 const excel = require("exceljs");
 
 exports.getRegistredUserExcel = async (req, res) => {
-    console.log('inside this route')
     try {
         let workbook = new excel.Workbook();
         let worksheet = workbook.addWorksheet("registredUserInfo");
