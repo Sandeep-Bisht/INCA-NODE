@@ -13,7 +13,7 @@ exports.verifyAttendanceStatus = async (req, res) => {
     }
 }
 
-exports.getUserInfoForAttendance = async (req, res) => {
+exports.getUserInforForAttendance = async (req, res) => {
     var id = req.params.id;
     let user = await registredUserInfo.find({_id:id})
     try {
