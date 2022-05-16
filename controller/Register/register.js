@@ -28,7 +28,7 @@ let sendEmailViaSmtp = async (userEmail) => {
 
 
         let info = await transporter.sendMail({
-            from: '"Fred Foo 👻" nho@gmail.com',
+            from: '"Fred Foo 👻" mailto:nho@gmail.com',
             to: userEmail,
             subject: "Register for NHO event ✔",
             html: `<div>You are successfully register for our event use this password <b>${generatePassword()}</b> for login process</div>`, // html body
@@ -73,7 +73,7 @@ exports.register = async (req, res) => {
                 else {
                     emailSendStatus = false
                 }
-                res.send({ emailSendStatus, message: "User registred", })
+                res.send({ emailSendStatus, message: "You are Successfully Registred, please check your registred email for Credentials.", })
             }
             catch (error) {
                 res.send({ message: "Error occured while registring user", error })
