@@ -14,21 +14,20 @@ let generatePassword = () => {
 }
 
 let sendEmailViaSmtp = async (userEmail) => {
-    let testAccount = await nodemailer.createTestAccount();
     try {
         let transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
+            host: "smtp.gmail.com",
             port: 587,
-            secure: false,
+            secure: false, 
             auth: {
-                user: testAccount.user,
-                pass: testAccount.pass,
+                user: "info@42inca.org",
+                pass: "Giks@123",
             },
         });
 
 
         let info = await transporter.sendMail({
-            from: '"Fred Foo 👻" mailto:nho@gmail.com',
+            from: 'info@42inca.org',
             to: userEmail,
             subject: "Register for NHO event ✔",
             html: `<div>You are successfully register for our event use this password <b>${generatePassword()}</b> for login process</div>`, // html body
@@ -67,6 +66,7 @@ exports.register = async (req, res) => {
             try {
                 let saveEntry = await user.save()
                 let response = await sendEmailViaSmtp(userEmail)
+                    console.log(response, 'email send  response')
                 if (response.messageId) {
                     emailSendStatus = true
                 }
@@ -87,5 +87,4 @@ exports.register = async (req, res) => {
         res.send({ message: "Please fill all the fields" })
     }
 }
-
 
