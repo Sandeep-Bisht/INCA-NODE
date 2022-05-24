@@ -29,12 +29,12 @@ const upload = multer({storage: fileStorageEngine, fileFilter:fileFilter})
 const { register } = require('../controller/Register/register')
 const { login } = require('../controller/Login/login')
 const {checkAuthentication} = require('../middleware')
-const { forgotPassword, verifyRegisteredEmail, changePassword } = require('../controller/Passwords')
+const { forgotPassword } = require('../controller/Passwords')
 const { getUsers,  deleteUser } = require('../controller/users/user')
 const { saveRegistredUserInfo } = require('../controller/SaveRegistredUserInfo')
 const { getAllRegistredUsersData, updateSaveRegistredUserInfoById, getRegistredUserInfoById } = require('../controller/GetRegistredUserInfo')
 const { saveSponsor, getSponsors } = require('../controller/SaveSponsor')
-const { uploadUserFiles, saveAbstractPaper, getAbstractPaper } = require('../controller/AbstractFileSubmission')
+const { uploadUserFiles, saveAbstractPaper, getAbstractPaper, getAbstractPaperById, approveAbstractPaperByAdmin } = require('../controller/AbstractFileSubmission')
 const { getCounters } = require('../controller/Counters')
 const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserExcel')
 const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInfoForAttendance } = require('../controller/AttendanceStatus')
@@ -53,11 +53,14 @@ router.post('/uploaddocument', upload.single("file"), uploadUserFiles)
 router.get('/sponsor', checkAuthentication,  getSponsors)
 router.get('/counters', checkAuthentication, getCounters)
 router.post('/saveabstractpaper', checkAuthentication, saveAbstractPaper);
-router.get('/getabstractpaper', checkAuthentication, getAbstractPaper)
+router.get('/getabstractpaper', checkAuthentication, getAbstractPaper);
+router.get('/getabstractpaper/:userId', getAbstractPaperById),
+router.put('/approvefilesubmission', approveAbstractPaperByAdmin)
 router.get('/downloadexcel',  getRegistredUserExcel),
 router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
 router.post('/markattendances', verifyAttendanceStatusByPassword )
 router.get('/getuserinfoforattendance/:id', checkAuthentication, getUserInfoForAttendance)
+router.put('/forgot', forgotPassword)
 
 router.get('/*', handle404Route ) 
 
