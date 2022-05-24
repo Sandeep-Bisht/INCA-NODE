@@ -38,6 +38,7 @@ const { uploadUserFiles, saveAbstractPaper, getAbstractPaper, getAbstractPaperBy
 const { getCounters } = require('../controller/Counters')
 const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserExcel')
 const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInfoForAttendance } = require('../controller/AttendanceStatus')
+const { paymentIntegration } = require('../controller/Razorpay')
 const { handle404Route } = require('../controller/404')
 
 
@@ -61,6 +62,7 @@ router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
 router.post('/markattendances', verifyAttendanceStatusByPassword )
 router.get('/getuserinfoforattendance/:id', checkAuthentication, getUserInfoForAttendance)
 router.put('/forgot', forgotPassword)
+router.post('/payment', paymentIntegration)
 
 router.get('/*', handle404Route ) 
 
