@@ -11,8 +11,8 @@ exports.uploadUserFiles = async (req, res) => {
 }
 
 exports.saveAbstractPaper = async (req, res) => {
-    const { abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, paperApproveStatus } = req.body
-    let abstractData = new abstractPaper({ paperApproveStatus, abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId })
+    const { abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, paperApproveStatus, userEmail, userName } = req.body
+    let abstractData = new abstractPaper({ paperApproveStatus, abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, userEmail, userName })
     try {
         let result = await abstractData.save()
         res.send({ message: "data saved successfully", })
@@ -45,13 +45,13 @@ exports.getAbstractPaperById = async (req, res) => {
 
 
 exports.approveAbstractPaperByAdmin = async (req, res) => {
-    let { id, paperApproveStatus, userName, userEmail } = req.body
+    let { docsId, paperApproveStatus } = req.body
     try {
-        let userPaper = await abstractPaper.findById(id)
+        let userPaper = await abstractPaper.findById(docsId)
         userPaper.paperApproveStatus = paperApproveStatus
         let abstractData = new abstractPaper(userPaper)
         let result = await abstractData.save()
-        let emailResponse = await sendEmailViaSmtp(userName, userEmail)
+        let emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.userEmail)
         if (emailResponse.messageId) {
             res.send({ message: "Email is sent on your registred mail. Please check your email for further process", })
         }
