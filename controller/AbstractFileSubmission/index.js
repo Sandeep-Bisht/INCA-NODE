@@ -45,13 +45,20 @@ exports.getAbstractPaperById = async (req, res) => {
 
 
 exports.approveAbstractPaperByAdmin = async (req, res) => {
+    
     let { docsId, paperApproveStatus } = req.body
     try {
         let userPaper = await abstractPaper.findById(docsId)
         userPaper.paperApproveStatus = paperApproveStatus
         let abstractData = new abstractPaper(userPaper)
-        let result = await abstractData.save()
-        let emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.userEmail)
+        let result = await abstractData.save();
+        if(paperApproveStatus){
+            var emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.userEmail, "Approved")
+        }
+        else {
+            var emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.userEmail, "Reject")
+        }
+        
         if (emailResponse.messageId) {
             res.send({ message: "Email is sent on your registred mail. Please check your email for further process", })
         }
@@ -62,7 +69,7 @@ exports.approveAbstractPaperByAdmin = async (req, res) => {
     }
 }
 
-let sendEmailViaSmtp = async (userName, userEmail) => {
+let sendEmailViaSmtp = async (userName, userEmail, status) => {
     try {
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
@@ -83,7 +90,7 @@ let sendEmailViaSmtp = async (userName, userEmail) => {
             <P>
                 Dear ${userName},<br>
                 <p>
-                    Your file is approved for 42<sup>nd</sup> INCA International Congress event.  Please pay the fee to join the event.              
+                    Your file is ${status} for 42<sup>nd</sup> INCA International Congress event.  Please pay the fee to join the event.              
                 </P>
             </P>
             <p>

@@ -2,7 +2,6 @@ const nodemailer = require("nodemailer");
 var generator = require("generate-password");
 let users = require("../../models/user");
 
-var hbs = require("nodemailer-express-handlebars");
 
 let generatePassword = () => {
   let password = generator.generate({
@@ -13,20 +12,19 @@ let generatePassword = () => {
 };
 
 let sendEmailViaSmtp = async (userName, userEmail, password) => {
-  // let testAccount = await nodemailer.createTestAccount();
   try {
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
       auth: {
-        user: "mailto:info@42inca.org",
+        user: "info@42inca.org",
         pass: "Giks@123",
       },
     });
 
     let info = await transporter.sendMail({
-      from: "mailto:info@42inca.org",
+      from: "info@42inca.org",
       to: userEmail,
       subject: "Register for NHO event ✔",
       html: `

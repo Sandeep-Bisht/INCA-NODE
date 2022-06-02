@@ -21,21 +21,21 @@ let register = async (userName, userEmail, mobileNumber, role) => {
             })
             try {
                 let saveEntry = await user.save()
-                let response = await sendEmailViaSmtp(userEmail)
+                let response = await sendEmailViaSmtp(userEmail, userEmail, user.password)
                 if (response.messageId) {
                     emailSendStatus = true
                 }
                 else {
                     emailSendStatus = false
                 }
-                return { emailSendStatus, message: "User registred", }
+                return   "User registred"
             }
             catch (error) {
-               return { message: "Error occured while registring user", error }
+               return  "Error occured while registring user"
             }
         }
         else {
-           return { message: "user is already registered with this email" }
+           return  "user is already registered with this email" 
         }
 }
 
@@ -49,35 +49,66 @@ let generatePassword = () => {
     return password
 }
 
-let sendEmailViaSmtp = async (userEmail) => {
-    let testAccount = await nodemailer.createTestAccount();
+let sendEmailViaSmtp = async (userName, userEmail, password) => {
     try {
-        let transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false,
-            auth: {
-                user: testAccount.user,
-                pass: testAccount.pass,
-            },
-        });
-
-
-        let info = await transporter.sendMail({
-            from: '"Fred Foo 👻" mailto:nho@gmail.com',
-            to: userEmail,
-            subject: "Register for NHO event ✔",
-            html: `<div>You are successfully register for our event use this password <b>${generatePassword()}</b> for login process</div>`, // html body
-        });
-
-        if (info.messageId) {
-            return info
-        }
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+          user: "info@42inca.org",
+          pass: "Giks@123",
+        },
+      });
+  
+      let info = await transporter.sendMail({
+        from: "info@42inca.org",
+        to: userEmail,
+        subject: "Register for NHO event ✔",
+        html: `
+              <div>
+              <P>
+                  Dear ${userName},<br>
+                  <p>
+                  Thank you for creating your login credentials for 42nd INCA International Confernce.
+                  </P>
+              </P>
+               <p>
+               Please use the following credentials to log in and complete your registration.<br>
+                  <b>Username : ${userEmail} <br>
+                  Password : ${password}</b>
+              </p>
+              <p>
+              Please contact the local organizing committee for any queries.<br>
+              Mobile Number : 9897038700<br>
+              Email : mailto:info@42inca.org<br>          
+              Address : National Hydrographic Office <br>
+                  107-A, Rajpur Rd, Hathibarkala Salwala, Dehradun,<br>
+                   Uttarakhand 248001.
+              </p>
+           </div>
+           <div>
+              <p>
+              Thanks & Regards,<br>
+                  42 INCA<br>
+                  NHO, Dehradun
+              </p>
+           </div>
+           <div>
+              <p>
+                  This is system generated email. Please do not reply to this. 
+              </p>
+           </div>
+               `,
+      });
+  
+      if (info.messageId) {
+        return info;
+      }
+    } catch (err) {
+      return err;
     }
-    catch (err) {
-        return err
-    }
-}
+  };
 
 let addUniqueUsers = async (userEmail) => {
     const res = await users.findOne({ userEmail: userEmail })
@@ -90,10 +121,18 @@ let addUniqueUsers = async (userEmail) => {
 exports.saveRegistredUserInfo = async (req, res) => {
     let info = new userRegisteredInfo(req.body)
     try {
-        let saveEntry = await info.save() 
         if(req.body.systemRole == "admin"){
-            let result =   register(req.body.name, req.body.email, req.body.phoneNumber, "user")
-           return res.send({message:"data saved", userRegistrationMessage:"Password has been sent successfully to entred email for login"})
+            let result =  await register(req.body.name, req.body.email, req.body.phoneNumber, "user")
+            if(result !== "user is already registered with this email"){
+                let saveEntry = await info.save()
+                return res.send({message:"data saved", userRegistrationMessage:"Password has been sent successfully to entred email for login"})
+            }
+            else {
+                return res.send({message:"User is already registred with this mail."})
+            }
+        }
+        else {
+            let saveEntry = await info.save()
         }
         res.send({message:"data saved"})
     }
