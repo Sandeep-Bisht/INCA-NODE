@@ -39,6 +39,7 @@ const { getCounters } = require('../controller/Counters')
 const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserExcel')
 const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInfoForAttendance } = require('../controller/AttendanceStatus')
 const { paymentIntegration } = require('../controller/Razorpay')
+const { saveExhibitorData, getExhibitorData } = require('../controller/Exhibitor')
 const { handle404Route } = require('../controller/404')
 
 
@@ -63,6 +64,8 @@ router.post('/markattendances', verifyAttendanceStatusByPassword )
 router.get('/getuserinfoforattendance/:id', checkAuthentication, getUserInfoForAttendance)
 router.put('/forgot', forgotPassword)
 router.post('/payment', paymentIntegration)
+router.post('/exhibitor', saveExhibitorData )
+router.get('/getexhibitor', getExhibitorData)
 
 router.get('/*', handle404Route ) 
 
