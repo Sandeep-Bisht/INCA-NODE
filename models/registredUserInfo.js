@@ -16,6 +16,7 @@ let registredUserInfoSchema = new Schema({
     journeyMode: { type: String },
     arrivalDate: { type: String },
     departureDate: { type: String },
+    accompanyingPerson: { type: Array },
     accompanyingPerson: { type: String },
     accomodationDetail: { type: String },
     registrationCategory: { type: String },
