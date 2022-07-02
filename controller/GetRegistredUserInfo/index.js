@@ -21,6 +21,7 @@ exports.updateSaveRegistredUserInfoById = async (req, res) => {
     conferenceMode,
     participationType,
     accompanningPerson,
+    nationality,
     title,
     journeyMode,
     arrivalDate,
@@ -31,8 +32,9 @@ exports.updateSaveRegistredUserInfoById = async (req, res) => {
      _id
     } = req.body
     var id = req.params.id;
-
+    console.log("req body",)
     let user = await registredUserInfo.findById(id)
+    console.log("user",user)
     try {
         user.name = name
         user.accomodationDetail=accomodationDetail,
@@ -48,6 +50,7 @@ exports.updateSaveRegistredUserInfoById = async (req, res) => {
         user.journeyMode = journeyMode,
         user.participationType = participationType,
         user.accompanningPerson = accompanningPerson,
+        user.nationality = nationality,
         user.phoneNumber = phoneNumber,
         user.pinCode = pinCode,
         user.registrationCategory = registrationCategory,
