@@ -7,6 +7,7 @@ const exhibitorSchema = new Schema({
     companyName: { type: String, require:true },
     // sponsorType: { type: String, require:true },
     exhibitionFee: { type: String, require:true },
+    
 },{timestamps: true} 
 )
 

@@ -120,6 +120,14 @@ let addUniqueUsers = async (userEmail) => {
 
 exports.saveRegistredUserInfo = async (req, res) => {
     let info = new userRegisteredInfo(req.body)
+    let result = await getLastRecordFromTable()
+    if(result  && result.registrationNumber != undefined){
+        let val =  parseInt(result.registrationNumber.split("I")[0]) + 1
+        info.registrationNumber = `${val}INCA`
+    }
+    else {
+        info.registrationNumber = "101INCA"
+    }
     try {
         if(req.body.systemRole == "admin"){
             let result =  await register(req.body.name, req.body.email, req.body.phoneNumber, "user")
@@ -139,6 +147,11 @@ exports.saveRegistredUserInfo = async (req, res) => {
     catch (error) {
         res.send({ message: "Error occured while saving user info", error })
     }
+}
+
+let getLastRecordFromTable = async () => {
+    let response = await userRegisteredInfo.findOne().sort({"_id":-1}).limit(1)
+        return response
 }
 
 
