@@ -10,6 +10,7 @@ let registredUserInfoSchema = new Schema({
     country: { type: String },
     phoneNumber: { type: Number  },
     email: { type: String },
+    nationality: {type: String},
     conferenceMode: { type: String },
     participationType: { type: String },
     title: { type: String },
