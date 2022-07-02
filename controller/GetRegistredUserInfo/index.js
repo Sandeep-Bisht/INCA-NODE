@@ -25,7 +25,6 @@ exports.updateSaveRegistredUserInfoById = async (req, res) => {
     journeyMode,
     arrivalDate,
     departureDate,
-    accompanyingPerson,
     accomodationDetail,
     registrationCategory,
     registrationFee,
@@ -37,7 +36,7 @@ exports.updateSaveRegistredUserInfoById = async (req, res) => {
     try {
         user.name = name
         user.accomodationDetail=accomodationDetail,
-        user.accompanyingPerson = accompanyingPerson
+       // user.accompanyingPerson = accompanyingPerson
         user.address = address,
         user.affilation = affilation,
         user.arrivalDate = arrivalDate,
