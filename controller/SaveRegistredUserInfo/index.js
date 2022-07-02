@@ -122,11 +122,11 @@ exports.saveRegistredUserInfo = async (req, res) => {
     let info = new userRegisteredInfo(req.body)
     let result = await getLastRecordFromTable()
     if(result  && result.registrationNumber != undefined){
-        let val =  parseInt(result.registrationNumber.split("I")[0]) + 1
-        info.registrationNumber = `${val}INCA`
+        let val =  parseInt(result.registrationNumber.split("A")[1]) + 1
+        info.registrationNumber = `INCA${val}`
     }
     else {
-        info.registrationNumber = "101INCA"
+        info.registrationNumber = "INCA105"
     }
     try {
         if(req.body.systemRole == "admin"){
