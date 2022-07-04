@@ -40,6 +40,7 @@ const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserEx
 const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInfoForAttendance } = require('../controller/AttendanceStatus')
 const { paymentIntegration } = require('../controller/Razorpay')
 const { saveExhibitorData, getExhibitorData } = require('../controller/Exhibitor')
+const { saveUserMannualTransactionDetails, getMannualPaymentInfo } = require('../controller/MannualPayment')
 const { handle404Route } = require('../controller/404')
 
 
@@ -66,6 +67,8 @@ router.put('/forgot', forgotPassword)
 router.post('/payment', paymentIntegration)
 router.post('/exhibitor', saveExhibitorData )
 router.get('/getexhibitor', getExhibitorData)
+router.post('/savepaymentdetails', checkAuthentication, saveUserMannualTransactionDetails)
+router.get('/transaction',checkAuthentication, getMannualPaymentInfo)
 
 router.get('/*', handle404Route ) 
 

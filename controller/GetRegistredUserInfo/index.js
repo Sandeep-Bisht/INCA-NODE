@@ -32,13 +32,10 @@ exports.updateSaveRegistredUserInfoById = async (req, res) => {
      _id
     } = req.body
     var id = req.params.id;
-    console.log("req body",)
     let user = await registredUserInfo.findById(id)
-    console.log("user",user)
     try {
         user.name = name
         user.accomodationDetail=accomodationDetail,
-       // user.accompanyingPerson = accompanyingPerson
         user.address = address,
         user.affilation = affilation,
         user.arrivalDate = arrivalDate,
