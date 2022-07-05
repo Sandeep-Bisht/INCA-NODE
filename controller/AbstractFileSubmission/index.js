@@ -85,17 +85,17 @@ let sendEmailViaSmtp = async (userName, userEmail, status) => {
         let info = await transporter.sendMail({
             from: 'info@42inca.org',
             to: userEmail,
-            subject: "File submission for NHO event ✔",
+            subject: "Abstract Approved for 42<sup>nd</sup>  INCA ✔",
             html: `<div>
             <P>
                 Dear ${userName},<br>
                 <p>
-                    Your file is ${status} for 42<sup>nd</sup> INCA International Congress event.  Please pay the fee to join the event.              
+                    Your Abstract is ${status} for 42<sup>nd</sup> INCA International Congress. Please pay the fee if not paid to confirm your participation the event.              
                 </P>
             </P>
             <p>
-            Please contact the local organizing committee for queries.<br>
-            Moblie Number : 9897038700<br>
+            Please contact the local organizing committee for any queries.<br>
+            Moblie Number : +91-9897038700<br>
             Email : info@42inca.org<br>          
             Address : National Hydrographic Office <br>
                 107-A, Rajpur Rd,  Post Box – 75, Dehradun,<br>

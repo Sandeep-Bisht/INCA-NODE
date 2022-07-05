@@ -4,7 +4,6 @@ const userRegisteredInfo = require("../../models/registredUserInfo")
 
 exports.updateFeeManuallyByAdmin = async(req, res) => {
     let id = req.params.id;
-    console.log(id, 'id')
        let result = await transactionDetails.findOne({registrationNumber:id})
        let response = await userRegisteredInfo.findOne({registrationNumber:id})
      

@@ -70,7 +70,7 @@ router.post('/exhibitor', saveExhibitorData )
 router.get('/getexhibitor', getExhibitorData)
 router.post('/savepaymentdetails', checkAuthentication, saveUserMannualTransactionDetails)
 router.get('/transaction',checkAuthentication, getMannualPaymentInfo)
-router.post("/update_transction_details/:id", updateFeeManuallyByAdmin)
+router.get("/update_transction_details/:id", checkAuthentication, updateFeeManuallyByAdmin)
 
 router.get('/*', handle404Route ) 
 
