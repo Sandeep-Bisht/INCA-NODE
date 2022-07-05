@@ -98,7 +98,7 @@ let sendEmailViaSmtp = async (userName, userEmail, status) => {
             Moblie Number : 9897038700<br>
             Email : info@42inca.org<br>          
             Address : National Hydrographic Office <br>
-                107-A, Rajpur Rd, Hathibarkala Salwala, Dehradun,<br>
+                107-A, Rajpur Rd,  Post Box – 75, Dehradun,<br>
                  Uttarakhand 248001.
             </p>
          </div>
