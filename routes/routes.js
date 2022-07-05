@@ -41,6 +41,7 @@ const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInfoFor
 const { paymentIntegration } = require('../controller/Razorpay')
 const { saveExhibitorData, getExhibitorData } = require('../controller/Exhibitor')
 const { saveUserMannualTransactionDetails, getMannualPaymentInfo } = require('../controller/MannualPayment')
+const { updateFeeManuallyByAdmin } = require("../controller/UpdateFeeManually")
 const { handle404Route } = require('../controller/404')
 
 
@@ -69,6 +70,7 @@ router.post('/exhibitor', saveExhibitorData )
 router.get('/getexhibitor', getExhibitorData)
 router.post('/savepaymentdetails', checkAuthentication, saveUserMannualTransactionDetails)
 router.get('/transaction',checkAuthentication, getMannualPaymentInfo)
+router.post("/update_transction_details/:id", updateFeeManuallyByAdmin)
 
 router.get('/*', handle404Route ) 
 

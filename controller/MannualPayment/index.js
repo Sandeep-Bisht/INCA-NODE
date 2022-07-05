@@ -19,7 +19,7 @@ exports.saveUserMannualTransactionDetails = async(req, res) => {
     let info = new userRegisteredInfo()
     let {bankName, accountNumber, registrationNumber, transactionNumber , referenceNumber, accountHolderName } = req.body
         mannualTransaction.mannualPaymentStatus = "unpaid"
-    let response = await findUserByRegistrationNumber(req.body.registrationNumber)
+    let response = await findUserByRegistrationNumber(registrationNumber)
        if(response){
             response.bankName = bankName
             response.accountNumber = accountNumber
