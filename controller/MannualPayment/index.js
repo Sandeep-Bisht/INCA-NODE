@@ -1,4 +1,5 @@
 let transactionDetails = require('../../models/transactionDetails')
+const userRegisteredInfo = require("../../models/registredUserInfo")
 
 
 exports.saveUserMannualTransactionDetails = async(req, res) => {
@@ -15,10 +16,24 @@ exports.saveUserMannualTransactionDetails = async(req, res) => {
 
 exports.saveUserMannualTransactionDetails = async(req, res) => {
     let mannualTransaction = new transactionDetails(req.body)
+    let info = new userRegisteredInfo()
+    let {bankName, accountNumber, registrationNumber, transactionNumber , referenceNumber, accountHolderName } = req.body
         mannualTransaction.mannualPaymentStatus = "unpaid"
+    let response = await findUserByRegistrationNumber(req.body.registrationNumber)
+       if(response){
+            response.bankName = bankName
+            response.accountNumber = accountNumber
+            response.transactionNumber = transactionNumber
+            response.referenceNumber = referenceNumber
+            response.accountHolderName = accountHolderName
+            response.mannualPaymentStatus = "unpaid"
+       }  
     try {
-        let result = await mannualTransaction.save()
-       return res.send({ message: "Your transaction details are submitted successfully, once reviewed and confirmed from accounts department; your registration will be confirmed" })
+        let data = await response.save() 
+        if(data ){
+            let result = await mannualTransaction.save()
+            return res.send({ message: "Your transaction details are submitted successfully, once reviewed and confirmed from accounts department; your registration will be confirmed" })
+        }
     }
     catch (error) {
      return   res.send({ message: "Error occured while saving transaction details ", error })
@@ -32,4 +47,10 @@ exports.getMannualPaymentInfo = async(req, res) => {
     } catch (error) {
         res.send({ message: "Error occured while fetching records" })
     }
+}
+
+
+let findUserByRegistrationNumber = async(val) => {
+    let response = await userRegisteredInfo.findOne({registrationNumber:val})
+    return response
 }

@@ -27,7 +27,15 @@ let registredUserInfoSchema = new Schema({
     userId:{type:String},
     attendanceStatus:{type:Boolean},
     systemRole:{type:String},
-    registrationNumber:{type:String}
+    registrationNumber:{type:String},
+
+    
+    bankName:{type:String},
+    accountHolderName:{type:String},
+    accountNumber:{type:String},
+    transactionNumber:{type:String},
+    referenceNumber:{type:String},
+    mannualPaymentStatus:{type:String}
 }, {timestamps: true})
 
 module.exports = mongoose.model('registredUserInfo', registredUserInfoSchema)
