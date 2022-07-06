@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 let abstractPaper = require('../../models/abstractPaper')
 const userRegisteredInfo = require("../../models/registredUserInfo")
-// db.users.find({status: "active"}, {username: 1} )
+
 
 exports.uploadUserFiles = async (req, res) => {
     try {
@@ -13,10 +13,10 @@ exports.uploadUserFiles = async (req, res) => {
 }
 
 exports.saveAbstractPaper = async (req, res) => {
-    const { abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, paperApproveStatus, userEmail, userName, themeType } = req.body
+    const { abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, paperApproveStatus, userEmail, userName, themeType , mannualPaymentStatus} = req.body
     let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
     let registrationNumber = result.registrationNumber
-    let abstractData = new abstractPaper({ paperApproveStatus, abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, userEmail, userName, themeType, registrationNumber})
+    let abstractData = new abstractPaper({ paperApproveStatus, abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, userEmail, userName, themeType,mannualPaymentStatus, registrationNumber})
     try {
         let result = await abstractData.save()
         res.send({ message: "data saved successfully", })

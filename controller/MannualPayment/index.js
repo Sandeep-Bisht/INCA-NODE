@@ -2,6 +2,7 @@ let transactionDetails = require('../../models/transactionDetails')
 const userRegisteredInfo = require("../../models/registredUserInfo")
 
 
+
 exports.saveUserMannualTransactionDetails = async(req, res) => {
     let mannualTransaction = new transactionDetails(req.body)
         mannualTransaction.mannualPaymentStatus = "unpaid"
@@ -20,6 +21,7 @@ exports.saveUserMannualTransactionDetails = async(req, res) => {
     let {bankName, accountNumber, registrationNumber, transactionNumber , referenceNumber, accountHolderName } = req.body
         mannualTransaction.mannualPaymentStatus = "unpaid"
     let response = await findUserByRegistrationNumber(registrationNumber)
+    
        if(response){
             response.bankName = bankName
             response.accountNumber = accountNumber
@@ -30,6 +32,7 @@ exports.saveUserMannualTransactionDetails = async(req, res) => {
        }  
     try {
         let data = await response.save() 
+        let data1 = await result.save()
         if(data ){
             let result = await mannualTransaction.save()
             return res.send({ message: "Your transaction details are submitted successfully, once reviewed and confirmed from accounts department; your registration will be confirmed" })
@@ -54,3 +57,4 @@ let findUserByRegistrationNumber = async(val) => {
     let response = await userRegisteredInfo.findOne({registrationNumber:val})
     return response
 }
+

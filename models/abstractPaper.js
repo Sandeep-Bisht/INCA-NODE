@@ -10,7 +10,7 @@ const abstractPaperSchema = new Schema({
     userId:{type:String, require:true},
     paperApproveStatus:{type:Boolean, require:true},
     registrationNumber:{type: String, require: true},
-    themeType:{type: String, require: true}
+    themeType:{type: String, require: true},
 },{timestamps: true} 
 )
 
