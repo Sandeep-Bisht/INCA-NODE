@@ -8,7 +8,9 @@ const abstractPaperSchema = new Schema({
     mimetype: { type: String, require:true },
     abstractFileUrl : { type: String, require: true },
     userId:{type:String, require:true},
-    paperApproveStatus:{type:Boolean, require:true}
+    paperApproveStatus:{type:Boolean, require:true},
+    registrationNumber:{type: String, require: true},
+    themeType:{type: String, require: true}
 },{timestamps: true} 
 )
 
