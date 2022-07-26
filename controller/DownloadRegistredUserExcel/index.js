@@ -15,7 +15,6 @@ exports.getRegistredUserExcel = async (req, res) => {
             { header: "Conference Mode", key: "conferenceMode", },
             { header: "Registration Category", key: "registrationCategory", },
             { header: "Registration Fee", key: "registrationFee", },
-           
         ];
 
         // Add Array Rows

@@ -4,18 +4,6 @@ const userRegisteredInfo = require("../../models/registredUserInfo")
 
 exports.saveUserMannualTransactionDetails = async(req, res) => {
     let mannualTransaction = new transactionDetails(req.body)
-        mannualTransaction.mannualPaymentStatus = "unpaid"
-    try {
-        let result = await mannualTransaction.save()
-       return res.send({ message: "Your transaction details are submitted successfully, once reviewed and confirmed from accounts department; your registration will be confirmed" })
-    }
-    catch (error) {
-     return   res.send({ message: "Error occured while saving transaction details ", error })
-    }
-}
-
-exports.saveUserMannualTransactionDetails = async(req, res) => {
-    let mannualTransaction = new transactionDetails(req.body)
     let info = new userRegisteredInfo()
     let {bankName, accountNumber, registrationNumber, transactionNumber , referenceNumber, accountHolderName } = req.body
         mannualTransaction.mannualPaymentStatus = "unpaid"
