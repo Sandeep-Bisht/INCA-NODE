@@ -4,6 +4,7 @@ const userRegisteredInfo = require("../../models/registredUserInfo")
 
 
 exports.uploadUserFiles = async (req, res) => {
+    console.log("ramola")
     try {
         return res.send({ message: "file uploaded", data: req.file })
     }
