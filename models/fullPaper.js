@@ -9,6 +9,7 @@ const fullPaperSchema = new Schema({
     fullPaperFileUrl : { type: String, require: true },
     userId:{type:String, require:true},
     paperApproveStatus:{type:Boolean, require:false},
+    themeType:{type: String, require: true},
     registrationNumber:{type: String, require: true},
 
 },{timestamps: true} )

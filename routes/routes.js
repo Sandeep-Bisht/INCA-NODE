@@ -68,8 +68,8 @@ router.put('/approvefilesubmission', approveAbstractPaperByAdmin)
 
 // ================================
 router.post('/fullPaperSubmition', checkAuthentication, saveFullPaper )
-router.get('/getFullPaper', checkAuthentication, getFullPaper);
-router.get('/getFullPaper/:userId', getFullPaperById),
+router.get('/getFullPaperList',checkAuthentication, getFullPaper);
+router.get('/getFullPaperList/:userId', getFullPaperById),
 
 router.get('/downloadexcel',  getRegistredUserExcel),
 router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)

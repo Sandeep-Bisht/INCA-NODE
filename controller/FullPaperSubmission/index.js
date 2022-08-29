@@ -2,7 +2,6 @@ let fullPaper = require('../../models/fullPaper')
 const userRegisteredInfo = require("../../models/registredUserInfo")
 
 exports.uploadUserFullPaperFiles = async (req, res) => {
-    console.log("sandeep")
     try {
         return res.send({ message: "file uploaded", data: req.file })
     }
@@ -12,12 +11,10 @@ exports.uploadUserFullPaperFiles = async (req, res) => {
 }
 
 exports.saveFullPaper = async (req, res) => {
-     const { fullPaperName, mimetype, fullPaperFileUrl, userId, userEmail, userName} = req.body
+     const { fullPaperName, mimetype, fullPaperFileUrl, themeType, userId, userEmail, userName} = req.body
      let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
-     console.log("result",result,"email", userEmail);
      let registrationNumber = result.registrationNumber;
-    let fullPaperData = new fullPaper({ fullPaperName, mimetype, fullPaperFileUrl, userId, userEmail, userName,  registrationNumber})
-    
+    let fullPaperData = new fullPaper({ fullPaperName, mimetype, fullPaperFileUrl, themeType, userId, userEmail, userName,  registrationNumber})        
      try {
         let result = await fullPaperData.save()
         res.send({ message: "data saved successfully", })
@@ -28,9 +25,12 @@ exports.saveFullPaper = async (req, res) => {
 }
 
 exports.getFullPaper = async (req, res) => {
+    
     try {
         let response = await fullPaper.find()
+        
         return res.send(response)
+        
     }
     catch (error) {
         return res.send({ message: "Error occured while fetching records" })
