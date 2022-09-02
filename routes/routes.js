@@ -65,12 +65,9 @@ router.post('/saveabstractpaper', checkAuthentication, saveAbstractPaper);
 router.get('/getabstractpaper', checkAuthentication, getAbstractPaper);
 router.get('/getabstractpaper/:userId', getAbstractPaperById),
 router.put('/approvefilesubmission', approveAbstractPaperByAdmin)
-
-// ================================
 router.post('/fullPaperSubmition', checkAuthentication, saveFullPaper )
 router.get('/getFullPaperList',checkAuthentication, getFullPaper);
 router.get('/getFullPaperList/:userId', getFullPaperById),
-
 router.get('/downloadexcel',  getRegistredUserExcel),
 router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
 router.post('/markattendances', verifyAttendanceStatusByPassword )
@@ -82,7 +79,7 @@ router.get('/getexhibitor', getExhibitorData)
 router.post('/savepaymentdetails', saveUserMannualTransactionDetails)
 router.get('/transaction',checkAuthentication, getMannualPaymentInfo)
 router.get("/update_transction_details/:id", checkAuthentication, updateFeeManuallyByAdmin)
-router.get('/download_abstarct_list',checkAuthentication, downloadAbstractUserList)
+router.get('/download_abstarct_list', downloadAbstractUserList)
 
 router.get('/*', handle404Route ) 
 

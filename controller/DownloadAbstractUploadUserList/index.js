@@ -10,7 +10,9 @@ exports.downloadAbstractUserList = async (req, res) => {
             { header: "Name", key: "userName", },
             { header: "Email", key: "userEmail", },
             { header: "Document", key: "abstractPaperName",},
-            {header:"Theme", key:"themeType",}
+            {header:"Theme", key:"themeType",},
+            {header:"Description", key:"abstractPaperDescription",}          
+
         ];
 
         // Add Array Rows
