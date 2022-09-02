@@ -25,11 +25,12 @@ exports.getUserInfoForAttendance = async (req, res) => {
 }
 
 exports.verifyAttendanceStatusByPassword = async (req, res) => {
-    var {id, password} = req.body
+    var {id, password, presentDates} = req.body
     if(id && password === "inca1234"){
         let user = await registredUserInfo.findById(id)
         try {
             user.attendanceStatus = true;
+            user.presentDates = presentDates
             let updateEntry = await user.save()
             res.json({ message: "attendance marked successfully" })
         }

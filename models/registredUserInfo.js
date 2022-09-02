@@ -35,7 +35,8 @@ let registredUserInfoSchema = new Schema({
     accountNumber:{type:String},
     transactionNumber:{type:String},
     referenceNumber:{type:String},
-    mannualPaymentStatus:{type:String}
+    mannualPaymentStatus:{type:String},
+    presentDates:{ type : Array}
 }, {timestamps: true})
 
 module.exports = mongoose.model('registredUserInfo', registredUserInfoSchema)

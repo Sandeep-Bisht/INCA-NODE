@@ -5,6 +5,13 @@ exports.getRegistredUserExcel = async (req, res) => {
     try {
         let workbook = new excel.Workbook();
         let worksheet = workbook.addWorksheet("registredUserInfo");
+    // "affilation" : "Vidyasagar University",
+    
+    // "pinCode" : 721506,
+    // "email" : "dipberageo@gmail.com",
+    // "conferenceMode" : "offline",
+    // "participationType" : "Research Paper Presentation",
+    // "nationality" : "indian",
         worksheet.columns = [
             { header: "Name", key: "name", },
             { header: "Designation", key: "designation", },
@@ -15,6 +22,12 @@ exports.getRegistredUserExcel = async (req, res) => {
             { header: "Conference Mode", key: "conferenceMode", },
             { header: "Registration Category", key: "registrationCategory", },
             { header: "Registration Fee", key: "registrationFee", },
+            {header: "Registration Number" , key:"registrationNumber"},
+            {header: "Title", key:"title"},
+            {header: "Nationality", key:"nationality"},
+            {header: "Participation Type", key:"participationType"},
+            {header:"Affilation", key:"affilation"},
+            {header:"Conference Mode", key:"conferenceMode"}
         ];
 
         // Add Array Rows

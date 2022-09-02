@@ -64,7 +64,7 @@ router.put('/approvefilesubmission', approveAbstractPaperByAdmin)
 router.get('/downloadexcel',  getRegistredUserExcel),
 router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
 router.post('/markattendances', verifyAttendanceStatusByPassword )
-router.get('/getuserinfoforattendance/:id', checkAuthentication, getUserInfoForAttendance)
+router.get('/getuserinfoforattendance/:id', getUserInfoForAttendance)
 router.put('/forgot', forgotPassword)
 router.post('/payment', paymentIntegration)
 router.post('/exhibitor', saveExhibitorData )
