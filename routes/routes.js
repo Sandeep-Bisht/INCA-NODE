@@ -35,6 +35,8 @@ const { saveRegistredUserInfo } = require('../controller/SaveRegistredUserInfo')
 const { getAllRegistredUsersData, updateSaveRegistredUserInfoById, getRegistredUserInfoById } = require('../controller/GetRegistredUserInfo')
 const { saveSponsor, getSponsors } = require('../controller/SaveSponsor')
 const { uploadUserFiles, saveAbstractPaper, getAbstractPaper, getAbstractPaperById, approveAbstractPaperByAdmin } = require('../controller/AbstractFileSubmission')
+// ========================
+const { uploadUserFullPaperFiles, saveFullPaper, getFullPaper, getFullPaperById } = require('../controller/FullPaperSubmission')
 const { getCounters } = require('../controller/Counters')
 const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserExcel')
 const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInfoForAttendance } = require('../controller/AttendanceStatus')
@@ -55,12 +57,20 @@ router.put('/updateregisteruserinfo/:id', checkAuthentication, updateSaveRegistr
 router.get('/getsaveregistreduserinfo/:id',checkAuthentication, getRegistredUserInfoById )
 router.post('/savesponsor',  saveSponsor )
 router.post('/uploaddocument', upload.single("file"), uploadUserFiles)
+router.post('/uploadfullPaperdocument', upload.single("file"), uploadUserFullPaperFiles)
+
 router.get('/sponsor', checkAuthentication,  getSponsors)
 router.get('/counters', checkAuthentication, getCounters)
 router.post('/saveabstractpaper', checkAuthentication, saveAbstractPaper);
 router.get('/getabstractpaper', checkAuthentication, getAbstractPaper);
 router.get('/getabstractpaper/:userId', getAbstractPaperById),
 router.put('/approvefilesubmission', approveAbstractPaperByAdmin)
+
+// ================================
+router.post('/fullPaperSubmition', checkAuthentication, saveFullPaper )
+router.get('/getFullPaperList',checkAuthentication, getFullPaper);
+router.get('/getFullPaperList/:userId', getFullPaperById),
+
 router.get('/downloadexcel',  getRegistredUserExcel),
 router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
 router.post('/markattendances', verifyAttendanceStatusByPassword )
