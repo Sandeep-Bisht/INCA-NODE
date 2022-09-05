@@ -45,6 +45,7 @@ const { saveExhibitorData, getExhibitorData } = require('../controller/Exhibitor
 const { saveUserMannualTransactionDetails, getMannualPaymentInfo } = require('../controller/MannualPayment')
 const { updateFeeManuallyByAdmin } = require("../controller/UpdateFeeManually")
 const {downloadAbstractUserList} = require('../controller/DownloadAbstractUploadUserList')
+const {downloadFullPaperList} = require('../controller/DownloadFullPaperList')
 const { handle404Route } = require('../controller/404')
 
 
@@ -65,12 +66,9 @@ router.post('/saveabstractpaper', checkAuthentication, saveAbstractPaper);
 router.get('/getabstractpaper', checkAuthentication, getAbstractPaper);
 router.get('/getabstractpaper/:userId', getAbstractPaperById),
 router.put('/approvefilesubmission', approveAbstractPaperByAdmin)
-
-// ================================
 router.post('/fullPaperSubmition', checkAuthentication, saveFullPaper )
 router.get('/getFullPaperList',checkAuthentication, getFullPaper);
 router.get('/getFullPaperList/:userId', getFullPaperById),
-
 router.get('/downloadexcel',  getRegistredUserExcel),
 router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
 router.post('/markattendances', verifyAttendanceStatusByPassword )
@@ -83,6 +81,7 @@ router.post('/savepaymentdetails', saveUserMannualTransactionDetails)
 router.get('/transaction',checkAuthentication, getMannualPaymentInfo)
 router.get("/update_transction_details/:id", checkAuthentication, updateFeeManuallyByAdmin)
 router.get('/download_abstarct_list', downloadAbstractUserList)
+router.get('/download_fullPaper_list', downloadFullPaperList)
 
 router.get('/*', handle404Route ) 
 
