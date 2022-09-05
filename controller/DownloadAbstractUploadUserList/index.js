@@ -27,7 +27,8 @@ exports.downloadAbstractUserList = async (req, res) => {
             { header: "Designation", key:"designation"},
             { header: "Conference Mode", key: "conferenceMode", },
             { header: "Registration Category", key: "registrationCategory" },
-            { header: "Participation Type", key: "participationType"}
+            { header: "Participation Type", key: "participationType"},
+            { header: "Paper Status", key: "paperApproveStatus"}
         ];
         worksheet.addRows(arr);
         res.setHeader(
