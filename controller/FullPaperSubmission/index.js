@@ -2,6 +2,7 @@ let fullPaper = require('../../models/fullPaper')
 const userRegisteredInfo = require("../../models/registredUserInfo")
 
 exports.uploadUserFullPaperFiles = async (req, res) => {
+    console.log(req.file, 'filess')
     try {
         return res.send({ message: "file uploaded", data: req.file })
     }
@@ -28,9 +29,7 @@ exports.getFullPaper = async (req, res) => {
     
     try {
         let response = await fullPaper.find()
-        
-        return res.send(response)
-        
+        return res.send(response);
     }
     catch (error) {
         return res.send({ message: "Error occured while fetching records" })
