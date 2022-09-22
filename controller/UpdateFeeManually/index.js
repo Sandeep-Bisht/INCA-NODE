@@ -24,7 +24,7 @@ let sendEmailViaSmtp = async (userEmail, qr) => {
             to: userEmail,
             subject: "Abstract Approved for 42<sup>nd</sup>  INCA ✔",
             html: `<div>
-           <img src= http://144.91.110.221:4801/${qr}/>
+           <img  src="'http://144.91.110.221:4801/ + ${qr}'"/>
          </div>`, // html body
         });
 
@@ -57,7 +57,7 @@ exports.updateFeeManuallyByAdmin = async (req, res) => {
 
 let generateQrOnPaymentApproval = async (val) => {
     let fileName;
-    fileName = `${val.name}.jpg`
+    fileName = `qr/${val.name}.jpg`
     let qrInfo = `Participant name is ${val.name} Registration number is ${val.registrationNumber} Transaction number is ${val.transactionNumber} Participant address is ${val.address} Participant email is ${val.email} Nationality is ${val.nationality} Participation Type is ${val.participationType} Participant Contact no ${val.phoneNumber}  Registration fee is ${val.registrationFee} Bank name is ${val.bankName} Account no is${val.accountNumber}`
     QRCode.toDataURL(qrInfo).then(url => {
         let res = url.split(",")
