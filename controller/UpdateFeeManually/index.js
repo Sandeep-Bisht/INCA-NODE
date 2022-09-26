@@ -30,7 +30,7 @@ let sendEmailViaSmtp = async (userEmail, qr) => {
          </div>`, 
          attachments: [{
             filename: res[1],
-            path: qr,
+            path: `/${qr}`,
             cid: "abc@123" //same cid value as in the html img src
         }]
         });
