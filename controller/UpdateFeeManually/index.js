@@ -27,7 +27,7 @@ let sendEmailViaSmtp = async (userEmail, qr) => {
             html: `<div>
             <a href="http://144.91.110.221:4801/${qr}">view Image1</a>
            <img src="cid:abc@123"/>
-         </div>`, // html body
+         </div>`, 
          attachments: [{
             filename: res[1],
             path: qr,
