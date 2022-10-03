@@ -86,7 +86,7 @@ exports.updateFeeManuallyByAdmin = async (req, res) => {
 let generateQrOnPaymentApproval = async (val) => {
     let fileName;
     fileName = `qr/${val.name}.jpg`
-    let qrInfo = `http://144.91.110.221:5360/userinfo/${val.userId}`;
+    let qrInfo = `http://42inca.org/userinfo/${val.userId}`;
     QRCode.toDataURL(qrInfo).then(url => {
         let res = url.split(",")
         const buffer = Buffer.from(res[1], "base64");
