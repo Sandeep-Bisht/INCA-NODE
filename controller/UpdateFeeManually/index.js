@@ -5,7 +5,6 @@ const QRCode = require('qrcode');
 const Jimp = require("jimp");
 
 let sendEmailViaSmtp = async (userName, userEmail, qr) => {
-    console.log(qr, 'qrrrrrr')
     let res = qr.split('/')
     try {
         let transporter = nodemailer.createTransport({
@@ -104,11 +103,8 @@ let generateQrOnPaymentApproval = async (val) => {
 exports.sendQrCodeToUserOnEmail = async(req, res) => {
     let id = req.params.id;
      let response = await userRegisteredInfo.findOne({ userId:id })
-     console.log(response, 'responsesss')
      let qrResult = await generateQrOnPaymentApproval(response)
-    
     let emailResponse = await sendEmailViaSmtp(response.name, response.email, qrResult);
-    console.log(emailResponse, 'emailResponse')
     res.send({message:"QR sent to user successfully"})
 }
 
