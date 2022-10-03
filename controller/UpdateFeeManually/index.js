@@ -1,12 +1,11 @@
-const fs = require("fs");
 let transactionDetails = require('../../models/transactionDetails')
 const userRegisteredInfo = require("../../models/registredUserInfo")
-let abstractPaper = require('../../models/abstractPaper')
 const nodemailer = require("nodemailer");
 const QRCode = require('qrcode');
 const Jimp = require("jimp");
 
-let sendEmailViaSmtp = async (userEmail, qr) => {
+let sendEmailViaSmtp = async (userName, userEmail, qr) => {
+    console.log(qr, 'qrrrrrr')
     let res = qr.split('/')
     try {
         let transporter = nodemailer.createTransport({
@@ -23,15 +22,39 @@ let sendEmailViaSmtp = async (userEmail, qr) => {
         let info = await transporter.sendMail({
             from: 'info@42inca.org',
             to: userEmail,
-            subject: "Abstract Approved for 42<sup>nd</sup>  INCA ✔",
+            subject: "QR Confirmation for 42<sup>nd</sup>  INCA ✔",
             html: `<div>
-            <a href="http://144.91.110.221:4801/${qr}">view Image1</a>
-           <img src="cid:abc@123"/>
+            <P>
+            Dear ${userName},<br>
+            <p>
+            We welcome you to the 42<sup>nd</sup> INCA International Congress!               
+            </p>
+            <p>We have received and verified your payment submitted for participation in 42<sup>nd</sup> INCA International Congress. </p>
+            <p>Please bring this attached QR code in any readable format at the congress venue for your convenience.</p>
+        </P>
+        <img src="cid:abc@gmail"/>
+        <p>
+            Please contact the local organizing committee for queries.<br>
+            Moblie Number : 9897038700<br>
+            Email : info@42inca.org<br>          
+            Address : National Hydrographic Office <br>
+                107-A, Rajpur Rd, Post Box – 75, Dehradun,<br>
+                 Uttarakhand 248001.
+            </p>
+            <div>
+            <p>
+                Thank You,<br><br>
+                Regards
+                42 INCA<br>
+                NHO, Dehradun
+            </p>
+         </div>
+          
          </div>`, 
          attachments: [{
             filename: res[1],
             path: `/${qr}`,
-            cid: "abc@123" //same cid value as in the html img src
+            cid: "abc@gmail" //same cid value as in the html img src
         }]
         });
 
@@ -53,8 +76,6 @@ exports.updateFeeManuallyByAdmin = async (req, res) => {
     try {
         let data = await result.save()
         let data1 = await response.save()
-        let qrResult = await generateQrOnPaymentApproval(response)
-        let emailResponse = await sendEmailViaSmtp(response.email, qrResult);
         res.send({ message: "Payment Status Approved." })
     }
     catch (error) {
@@ -62,10 +83,11 @@ exports.updateFeeManuallyByAdmin = async (req, res) => {
     }
 }
 
+
 let generateQrOnPaymentApproval = async (val) => {
     let fileName;
     fileName = `qr/${val.name}.jpg`
-    let qrInfo = `Participant name is ${val.name} Registration number is ${val.registrationNumber} Transaction number is ${val.transactionNumber} Participant address is ${val.address} Participant email is ${val.email} Nationality is ${val.nationality} Participation Type is ${val.participationType} Participant Contact no ${val.phoneNumber}  Registration fee is ${val.registrationFee} Bank name is ${val.bankName} Account no is${val.accountNumber}`
+    let qrInfo = `http://144.91.110.221:5360/userinfo/${val.userId}`;
     QRCode.toDataURL(qrInfo).then(url => {
         let res = url.split(",")
         const buffer = Buffer.from(res[1], "base64");
@@ -78,3 +100,24 @@ let generateQrOnPaymentApproval = async (val) => {
     })
     return fileName;
 }
+
+exports.sendQrCodeToUserOnEmail = async(req, res) => {
+    let id = req.params.id;
+     let response = await userRegisteredInfo.findOne({ userId:id })
+     console.log(response, 'responsesss')
+     let qrResult = await generateQrOnPaymentApproval(response)
+    
+    let emailResponse = await sendEmailViaSmtp(response.name, response.email, qrResult);
+    console.log(emailResponse, 'emailResponse')
+    res.send({message:"QR sent to user successfully"})
+}
+
+exports.getUserInfoForQr = async(req, res) => {
+    var id = req.params.id;
+    try {
+        let user = await userRegisteredInfo.find({userId:id})
+        res.send(user)
+    } catch (error) {
+        res.send({ message: "Error occured while fetching records" })
+    }
+} 
