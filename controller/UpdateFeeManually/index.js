@@ -18,6 +18,7 @@ let sendEmailViaSmtp = async (userEmail, userName, qr) => {
         });
 
 
+
         let info = await transporter.sendMail({
             from: 'info@42inca.org',
             to: userEmail,
@@ -27,7 +28,7 @@ let sendEmailViaSmtp = async (userEmail, userName, qr) => {
             Dear ${userName},<br>
             <p>Please bring this attached QR code in any readable format at the congress venue for your convenience.</p>
         </P>
-        <img src="cid:${res[1]}"/>
+        <img src="cid:nitin@gmail.com"/>
         <p>
             Please contact the local organizing committee for queries.<br>
             Moblie Number : 9897038700<br>
@@ -49,7 +50,7 @@ let sendEmailViaSmtp = async (userEmail, userName, qr) => {
          attachments: [{
             filename: res[1],
             path: `/${qr}`,
-            cid: res[1] //same cid value as in the html img src
+            cid: "nitin@gmail.com" //same cid value as in the html img src
         }]
         });
 
