@@ -99,10 +99,11 @@ let generateQrOnPaymentApproval = async (val) => {
 
 exports.sendQrCodeToUserOnEmail = async(req, res) => {
     let id = req.params.id;
-    console.log(id, 'idddd')
+    console.log(id, 'idddd1111')
      let response = await userRegisteredInfo.findOne({ userId:id })
      let qrResult = await generateQrOnPaymentApproval(response)
     let emailResponse = await sendEmailViaSmtp(response.name, response.email, qrResult);
+    console.log(emailResponse, 'emailResponseee1')
     if(emailResponse && emailResponse.messageId){
         res.send({message:"QR sent to user successfully"})
     }
