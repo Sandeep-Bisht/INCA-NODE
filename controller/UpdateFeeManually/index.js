@@ -21,14 +21,10 @@ let sendEmailViaSmtp = async (userName, userEmail, qr) => {
         let info = await transporter.sendMail({
             from: 'info@42inca.org',
             to: userEmail,
-            subject: "QR Confirmation for 42<sup>nd</sup>  INCA ✔",
+            subject: "QR for 42<sup>nd</sup>  INCA ✔",
             html: `<div>
             <P>
             Dear ${userName},<br>
-            <p>
-            We welcome you to the 42<sup>nd</sup> INCA International Congress!               
-            </p>
-            <p>We have received and verified your payment submitted for participation in 42<sup>nd</sup> INCA International Congress. </p>
             <p>Please bring this attached QR code in any readable format at the congress venue for your convenience.</p>
         </P>
         <img src="cid:abc@gmail"/>
@@ -72,6 +68,7 @@ exports.updateFeeManuallyByAdmin = async (req, res) => {
     let response = await userRegisteredInfo.findOne({ registrationNumber: id })
     result.mannualPaymentStatus = "paid"
     response.mannualPaymentStatus = "paid"
+    response.attendanceStatus = true;
     try {
         let data = await result.save()
         let data1 = await response.save()
@@ -105,7 +102,12 @@ exports.sendQrCodeToUserOnEmail = async(req, res) => {
      let response = await userRegisteredInfo.findOne({ userId:id })
      let qrResult = await generateQrOnPaymentApproval(response)
     let emailResponse = await sendEmailViaSmtp(response.name, response.email, qrResult);
-    res.send({message:"QR sent to user successfully"})
+    if(emailResponse && emailResponse.messageId){
+        res.send({message:"QR sent to user successfully"})
+    }
+    else {
+        res.send({message:"Error while sending email"})
+    }
 }
 
 exports.getUserInfoForQr = async(req, res) => {
