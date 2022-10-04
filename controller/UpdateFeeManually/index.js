@@ -3,8 +3,7 @@ const userRegisteredInfo = require("../../models/registredUserInfo")
 const nodemailer = require("nodemailer");
 const QRCode = require('qrcode');
 const Jimp = require("jimp");
-
-let sendEmailViaSmtp = async (userEmail, userName, qr) => {
+let sendEmailViaSmtp = async (userName, userEmail, qr) => {
     let res = qr.split('/')
     try {
         let transporter = nodemailer.createTransport({
@@ -18,17 +17,16 @@ let sendEmailViaSmtp = async (userEmail, userName, qr) => {
         });
 
 
-
         let info = await transporter.sendMail({
             from: 'info@42inca.org',
             to: userEmail,
-            subject: "Confirmation for 42<sup>nd</sup>  INCA ✔",
+            subject: "QR for 42<sup>nd</sup>  INCA ✔",
             html: `<div>
             <P>
             Dear ${userName},<br>
             <p>Please bring this attached QR code in any readable format at the congress venue for your convenience.</p>
         </P>
-        <img src="cid:nitin@gmail.com"/>
+        <img src="cid:hello@123"/>
         <p>
             Please contact the local organizing committee for queries.<br>
             Moblie Number : 9897038700<br>
@@ -50,7 +48,7 @@ let sendEmailViaSmtp = async (userEmail, userName, qr) => {
          attachments: [{
             filename: res[1],
             path: `/${qr}`,
-            cid: "nitin@gmail.com" //same cid value as in the html img src
+            cid: "hello@123" //same cid value as in the html img src
         }]
         });
 
