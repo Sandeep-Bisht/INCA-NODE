@@ -27,7 +27,7 @@ let sendEmailViaSmtp = async (userName, userEmail, qr) => {
             Dear ${userName},<br>
             <p>Please bring this attached QR code in any readable format at the congress venue for your convenience.</p>
         </P>
-        <img src="cid:abc@gmail"/>
+        <img src="cid:abc1@gmail"/>
         <p>
             Please contact the local organizing committee for queries.<br>
             Moblie Number : 9897038700<br>
@@ -49,7 +49,7 @@ let sendEmailViaSmtp = async (userName, userEmail, qr) => {
          attachments: [{
             filename: res[1],
             path: `/${qr}`,
-            cid: "abc@gmail" //same cid value as in the html img src
+            cid: "abc1@gmail" //same cid value as in the html img src
         }]
         });
 
