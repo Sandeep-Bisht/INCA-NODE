@@ -65,12 +65,25 @@ exports.updateFeeManuallyByAdmin = async (req, res) => {
     let id = req.params.id;
     let result = await transactionDetails.findOne({ registrationNumber: id })
     let response = await userRegisteredInfo.findOne({ registrationNumber: id })
-    result.mannualPaymentStatus = "paid"
-    response.mannualPaymentStatus = "paid"
-    response.attendanceStatus = true;
+    if(result == null){
+        response["mannualPaymentStatus"] = "paid"
+        response['attendanceStatus'] = true;
+    }
+    else {
+        result.mannualPaymentStatus = "paid"
+        response.mannualPaymentStatus = "paid"
+        response.attendanceStatus = true;
+    }
+    
     try {
-        let data = await result.save()
-        let data1 = await response.save()
+        if(result == null){
+            let data1 = await response.save()
+        }
+        else {
+            let data = await result.save()
+            let data1 = await response.save()
+        }
+       
         res.send({ message: "Payment Status Approved." })
     }
     catch (error) {
@@ -101,7 +114,6 @@ exports.sendQrCodeToUserOnEmail = async(req, res) => {
      let response = await userRegisteredInfo.findOne({ userId:id })
      let qrResult = await generateQrOnPaymentApproval(response)
     let emailResponse = await sendEmailViaSmtp(response.name, response.email, qrResult);
-    console.log(emailResponse, 'emailResponseee1')
     if(emailResponse && emailResponse.messageId){
         res.send({message:"QR sent to user successfully"})
     }
