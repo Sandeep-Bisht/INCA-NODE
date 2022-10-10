@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let routes = require('./routes/routes')
 app.use("/files", express.static("files"));
-app.use("/qr", express.static("qr"));
+app.use("/qrimages", express.static("qrimages"));
 app.use('/api', routes)
 
 const PORT = process.env.PORT
