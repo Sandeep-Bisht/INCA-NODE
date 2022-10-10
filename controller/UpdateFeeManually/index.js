@@ -94,7 +94,7 @@ exports.updateFeeManuallyByAdmin = async (req, res) => {
 
 let generateQrOnPaymentApproval = async (val) => {
     let fileName;
-    fileName = `qr/${val.name}1.jpg`
+    fileName = `qr/${val.name}.jpg`
     let qrInfo = `http://42inca.org/userinfo/${val.userId}`;
     QRCode.toDataURL(qrInfo).then(url => {
         let res = url.split(",")
