@@ -46,6 +46,7 @@ const { saveUserMannualTransactionDetails, getMannualPaymentInfo } = require('..
 const { updateFeeManuallyByAdmin , sendQrCodeToUserOnEmail, getUserInfoForQr} = require("../controller/UpdateFeeManually")
 const {downloadAbstractUserList} = require('../controller/DownloadAbstractUploadUserList')
 const {downloadFullPaperList} = require('../controller/DownloadFullPaperList')
+const{ downloadUserExcelList} = require('../controller/DownloadUserExcel')
 const { handle404Route } = require('../controller/404')
 
 
@@ -85,7 +86,9 @@ router.get('/generateqrcode/:id', sendQrCodeToUserOnEmail)
 router.get('/download_abstarct_list', downloadAbstractUserList)
 router.get('/download_fullPaper_list', downloadFullPaperList)
 router.get('/getuserqrinfo/:id', getUserInfoForQr)
-
+//router.get('/downloaduserexcellist', downloadUserExcel)
+//router.get('/downloaduserexcellist', downloadUserExcel)
+router.get('/userexcel',downloadUserExcelList )
 router.get('/*', handle404Route ) 
 
 module.exports = router; 
