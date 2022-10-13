@@ -35,6 +35,13 @@ exports.downloadUserExcelList = async (req, res) => {
             { header: "Conference Mode", key: "conferenceMode", },
             { header: "Registration Category", key: "registrationCategory" },
             { header: "Participation Type", key: "participationType" },
+            { header:"Account HolderName", key:"accountHolderName"},
+            { header: "Account Number", key: "accountNumber" },
+            { header:"Bank Name", key:"bankName"},
+            { header:"Transaction Number", key:"transactionNumber"},
+            { header:"Reference Number", key:"referenceNumber" },
+            { header:"PinCode", key:"pinCode" },
+            { header:"Affilation", key:"affilation" },
         ];
         worksheet.addRows(arr);
         res.setHeader(
