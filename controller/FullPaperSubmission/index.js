@@ -2,7 +2,6 @@ let fullPaper = require('../../models/fullPaper')
 const userRegisteredInfo = require("../../models/registredUserInfo")
 
 exports.uploadUserFullPaperFiles = async (req, res) => {
-    console.log(req.file, 'filess')
     try {
         return res.send({ message: "file uploaded", data: req.file })
     }
