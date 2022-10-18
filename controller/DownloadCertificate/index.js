@@ -45,8 +45,7 @@ let sendEmailViaSmtp = async (userName, userEmail, registrationNumber) => {
               <div>
               <P>
                 Dear ${userName},<br>
-                <p>Please click the below and download the your certificate</p>
-                <a href="http://42inca.org/certificate/${userEmail}"> </a>
+                <a href="http://42inca.org/certificate/${userEmail}">Please click the and download the your certificate</a>
               </p>
               <p>
               Please contact the local organizing committee for any queries.<br>
