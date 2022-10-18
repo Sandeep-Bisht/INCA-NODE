@@ -114,7 +114,6 @@ exports.sendQrCodeToUserOnEmail = async(req, res) => {
      let response = await userRegisteredInfo.findOne({ userId:id })
      let qrResult = await generateQrOnPaymentApproval(response)
     let emailResponse = await sendEmailViaSmtp(response.name, response.email, qrResult);
-    console.log(emailResponse, 'emailResponse')
     if(emailResponse && emailResponse.messageId){
         res.send({message:"QR sent to user successfully"})
     }
