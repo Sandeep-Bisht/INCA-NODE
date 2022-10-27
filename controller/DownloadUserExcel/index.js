@@ -1,14 +1,14 @@
 let registredUserInfo = require('../../models/registredUserInfo')
 const excel = require("exceljs");
 const merge = require('deepmerge')
-let abstractPaper = require('../../models/abstractPaper')
+let transactionDetails = require('../../models/transactionDetails')
 exports.downloadUserExcelList = async (req, res) => {
-    let response = await registredUserInfo.find({}, { designation: 1, conferenceMode: 1, registrationCategory: 1, participationType: 1, email: 1, mannualPaymentStatus:1 })
+    let response = await registredUserInfo.find({}, {name:1, designation: 1, conferenceMode: 1, registrationCategory: 1, participationType: 1, email: 1, mannualPaymentStatus:1 , registrationFee: 1})
     let arr = []
-    const usersList = await abstractPaper.find()
+    const usersList = await transactionDetails.find()
     for (let el of response) {
         for (item of usersList) {
-            if (el.email === item.userEmail) {
+            if (el.email === item.email) {
                 if(el.hasOwnProperty('mannualPaymentStatus')){
                     el.mannualPaymentStatus ? el.mannualPaymentStatus : "unpaid"
                 }
@@ -26,22 +26,19 @@ exports.downloadUserExcelList = async (req, res) => {
         let worksheet = workbook.addWorksheet("arr");
         worksheet.columns = [
             { header: "Registration Number", key: "registrationNumber" },
-            { header: "Name", key: "userName", },
+            { header: "Name", key: "name", },
             { header: "Designation", key: "designation" },
-            { header: "Email", key: "userEmail", },
-            { header: "Paper Title", key: "abstractPaperName", },
-            { header: "Theme", key: "themeType", },
+            { header: "Email", key: "email", },
             { header: "Fee Paid", key:"mannualPaymentStatus"},
             { header: "Conference Mode", key: "conferenceMode", },
             { header: "Registration Category", key: "registrationCategory" },
             { header: "Participation Type", key: "participationType" },
             { header:"Account HolderName", key:"accountHolderName"},
+            { header:"Registration Fee", key:"registrationFee"},
             { header: "Account Number", key: "accountNumber" },
             { header:"Bank Name", key:"bankName"},
             { header:"Transaction Number", key:"transactionNumber"},
             { header:"Reference Number", key:"referenceNumber" },
-            { header:"PinCode", key:"pinCode" },
-            { header:"Affilation", key:"affilation" },
         ];
         worksheet.addRows(arr);
         res.setHeader(
@@ -50,7 +47,7 @@ exports.downloadUserExcelList = async (req, res) => {
         );
         res.setHeader(
             "Content-Disposition",
-            "attachment; filename=" + "AbstractUserList.xlsx"
+            "attachment; filename=" + "VerifiedUserList.xlsx"
         );
         return workbook.xlsx.write(res).then(function () {
             res.status(200).end();
