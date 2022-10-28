@@ -18,6 +18,7 @@ exports.downloadUserExcelList = async (req, res) => {
                 break;
             }
             else {
+                item["mannualPaymentStatus"] = item.mannualPaymentStatus? item.mannualPaymentStatus : "unpaid"
                 arr.push(item)
                 break;
             }
