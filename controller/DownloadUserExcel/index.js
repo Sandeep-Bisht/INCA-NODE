@@ -3,24 +3,26 @@ const excel = require("exceljs");
 const merge = require('deepmerge')
 let transactionDetails = require('../../models/transactionDetails')
 exports.downloadUserExcelList = async (req, res) => {
-    let response = await registredUserInfo.find({}, {name:1, designation: 1, conferenceMode: 1, registrationCategory: 1, participationType: 1, email: 1, mannualPaymentStatus:1 , registrationFee: 1})
+    let response = await registredUserInfo.find()
     let arr = []
     const usersList = await transactionDetails.find()
-    for (let el of response) {
-        for (item of usersList) {
-            if (el.email === item.email) {
-                if(el.hasOwnProperty('mannualPaymentStatus')){
-                    el.mannualPaymentStatus ? el.mannualPaymentStatus : "unpaid"
-                }
-                else {
-                    el.mannualPaymentStatus =  el.mannualPaymentStatus ?  el.mannualPaymentStatus : "unpaid"
-                }
-                const merged = merge(el, item)
-                arr.push(merged._doc)
+    for (let item of response) {
+        for (let el of usersList) {
+            if (item.email === el.email) {
+                item["bankName"] = el.bankName
+                item["accountNumber"] = el.accountNumber
+                item["transactionNumber"] = el.transactionNumber
+                item["referenceNumber"] = el.referenceNumber
+                item["mannualPaymentStatus"] = el.mannualPaymentStatus
+                arr.push(item)
+                break;
+            }
+            else {
+                arr.push(item)
+                break;
             }
         }
     }
-
     try {
         let workbook = new excel.Workbook();
         let worksheet = workbook.addWorksheet("arr");
@@ -29,16 +31,16 @@ exports.downloadUserExcelList = async (req, res) => {
             { header: "Name", key: "name", },
             { header: "Designation", key: "designation" },
             { header: "Email", key: "email", },
-            { header: "Fee Paid", key:"mannualPaymentStatus"},
             { header: "Conference Mode", key: "conferenceMode", },
             { header: "Registration Category", key: "registrationCategory" },
             { header: "Participation Type", key: "participationType" },
-            { header:"Account HolderName", key:"accountHolderName"},
-            { header:"Registration Fee", key:"registrationFee"},
+            { header: "Account HolderName", key: "accountHolderName" },
+            { header: "Registration Fee", key: "registrationFee" },
             { header: "Account Number", key: "accountNumber" },
-            { header:"Bank Name", key:"bankName"},
-            { header:"Transaction Number", key:"transactionNumber"},
-            { header:"Reference Number", key:"referenceNumber" },
+            { header: "Bank Name", key: "bankName" },
+            { header: "Transaction Number", key: "transactionNumber" },
+            { header: "Reference Number", key: "referenceNumber" },
+            { header: "Payment Status", key: "mannualPaymentStatus" }
         ];
         worksheet.addRows(arr);
         res.setHeader(
@@ -47,7 +49,7 @@ exports.downloadUserExcelList = async (req, res) => {
         );
         res.setHeader(
             "Content-Disposition",
-            "attachment; filename=" + "VerifiedUserList.xlsx"
+            "attachment; filename=" + "userfeeverifiedlist.xlsx"
         );
         return workbook.xlsx.write(res).then(function () {
             res.status(200).end();
@@ -56,3 +58,11 @@ exports.downloadUserExcelList = async (req, res) => {
         res.send({ message: "Error occured while fetching records" })
     }
 }
+
+
+
+
+
+
+
+
