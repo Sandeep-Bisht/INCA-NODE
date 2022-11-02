@@ -72,3 +72,5 @@ exports.getRegistredUserInfoById = async(req, res) => {
         res.send({ message: "Error occured while fetching records" })
     }
 } 
+
+
