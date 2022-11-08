@@ -1,11 +1,21 @@
 let registredUserInfo = require('../../models/registredUserInfo')
+// abstractpapers
+let abstractPaper = require('../../models/abstractPaper')
 const nodemailer = require("nodemailer");
 
 exports.getUserInfoForCertificate = async(req, res) => {
     var email = req.params.id;
     try {
-        let user = await registredUserInfo.find({email:email})
-        res.send(user)
+        let user = await abstractPaper.find({userEmail:email})
+        let response = await registredUserInfo.find({email:email})
+        let newResponse = {
+          userName:user[0].userName,
+          abstractPaperName:user[0].abstractPaperName,
+          designation:response[0].designation
+        }
+        let arr = [];
+        arr.push(newResponse)
+        res.send(arr)
     } catch (error) {
         res.send({ message: "Error occured while fetching records" })
     }
