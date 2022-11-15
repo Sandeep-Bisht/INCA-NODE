@@ -151,7 +151,7 @@ exports.saveRegistredUserInfo = async (req, res) => {
 
 let getLastRecordFromTable = async () => {
     let response = await userRegisteredInfo.findOne().sort({"_id":-1}).limit(1)
-        return response
+    return response
 }
 
 

@@ -28,9 +28,7 @@ exports.getFullPaper = async (req, res) => {
     
     try {
         let response = await fullPaper.find()
-        
-        return res.send(response)
-        
+        return res.send(response);
     }
     catch (error) {
         return res.send({ message: "Error occured while fetching records" })

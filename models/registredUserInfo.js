@@ -28,8 +28,6 @@ let registredUserInfoSchema = new Schema({
     attendanceStatus:{type:Boolean},
     systemRole:{type:String},
     registrationNumber:{type:String},
-
-    
     bankName:{type:String},
     accountHolderName:{type:String},
     accountNumber:{type:String},

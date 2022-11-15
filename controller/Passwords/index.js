@@ -72,7 +72,6 @@ let sendEmailViaSmtp = async (userName, userEmail, password) => {
 
 
 exports.forgotPassword = async (req, res) => {
-
     let { userEmail } = req.body
     let userObj = await users.findOne({ userEmail })
     if (userObj == null) return res.send({ message: "Please send the registred email address" });
