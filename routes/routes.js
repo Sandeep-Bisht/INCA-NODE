@@ -49,6 +49,8 @@ const {downloadFullPaperList} = require('../controller/DownloadFullPaperList')
 const{ downloadUserExcelList} = require('../controller/DownloadUserExcel')
 const {getUserInfoForCertificate, sendEmailToUserForDownloadCertificate} = require('../controller/DownloadCertificate')
 const {getRegistredUserInfoByEmail} = require('../controller/GetRegistredUserInfoByEmail')
+const {sendEmailToAllUsers} = require('../controller/SendMailToUser')
+// sendEmailToAllUsers
 const { handle404Route } = require('../controller/404')
 
 
@@ -91,6 +93,8 @@ router.get('/getuserqrinfo/:id', getUserInfoForQr)
 router.get('/userexcel',downloadUserExcelList )
 router.get('/generate_certificate/:id', getUserInfoForCertificate)
 router.get('/sendemailtodownloadcertificate/:id', sendEmailToUserForDownloadCertificate )
+router.get('/sendEmailToAllUsers/:id', sendEmailToAllUsers )
+// sendEmailToAllUsers
 router.get('/getuserinfo/:id', getRegistredUserInfoByEmail)
 // getRegistredUserInfoByEmail
 router.get('/*', handle404Route ) 
