@@ -1,43 +1,27 @@
 let registredUserInfo = require('../../models/registredUserInfo')
-// abstractpapers
-let abstractPaper = require('../../models/abstractPaper')
+
 const nodemailer = require("nodemailer");
 
-exports.getUserInfoForCertificate = async(req, res) => {
+let counter = 0;
+exports.sendEmailToAllUsers = async(req, res) => {
     var email = req.params.id;
     try {
-        let user = await abstractPaper.find({userEmail:email})
-        let response = await registredUserInfo.find({email:email})
-        console.log(response, 'response')
-        console.log(user, 'userss')
-        let newResponse = {
-          userName:user.length > 0  ? user[0].userName : response[0].name ,
-          abstractPaperName:user.length > 0  ? user[0].abstractPaperName : "",
-          designation:response[0].designation
-        }
-        let arr = [];
-        arr.push(newResponse)
-        res.send(arr)
-    } catch (error) {
-        res.send({ message: "Error occured while fetching records" })
+        let result = await sendEmailViaSmtp(email);    
+          if(result.messageId){
+            res.send({message:`Email send to user successfully`})
+          }
+          else {
+            res.send({message:`Email address is not valid`})
+          }
     }
-} 
-
-exports.sendEmailToUserForDownloadCertificate = async(req, res) => {
-    var id = req.params.id;
-    try {
-        let user = await registredUserInfo.find({registrationNumber:id})
-       let result = await sendEmailViaSmtp(user[0].name, user[0].email, user[0].registrationNumber)
-       if(result.messageId){
-            res.send({message:"Email sent successfully"})
-       } 
-    } catch (error) {
+     catch (error) {
         res.send({ message: "Error occurs while sending email" })
     }
 }
 
 
-let sendEmailViaSmtp = async (userName, userEmail, registrationNumber) => {
+let sendEmailViaSmtp = async (userEmail) => {
+    console.log(counter, 'value of counter')
     try {
       let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -52,12 +36,11 @@ let sendEmailViaSmtp = async (userName, userEmail, registrationNumber) => {
       let info = await transporter.sendMail({
         from: "info@42inca.org",
         to: userEmail,
-        subject: "Register for NHO event ✔",
+        subject: "General Information to users ✔",
         html: `
               <div>
               <P>
-                Dear ${userName},<br>
-                <a href="http://42inca.org/certificate/${userEmail}">Please click the and download the your certificate</a>
+               <p>All participants are requested to be seated for technical sessions by 08:45am in the respective venue. The valedictory session is scheduled on 11 Nov 22 as per the timeline promulgated. It is mandatory for all participants to be available for valedictory session.</p>
               </p>
               <p>
               Please contact the local organizing committee for any queries.<br>
@@ -84,6 +67,7 @@ let sendEmailViaSmtp = async (userName, userEmail, registrationNumber) => {
       });
   
       if (info.messageId) {
+        
         return info;
       }
     } catch (err) {
