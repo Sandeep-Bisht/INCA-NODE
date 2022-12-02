@@ -4,6 +4,7 @@ let users = require('../models/user')
 
 
 exports.checkAuthentication = (req, res, next) => {
+    console.log("check auth hit")
     const { authorization } = req.headers ;
     if(!authorization){
         return res.status(401).send({error:"You must be loginnn"})

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.db_url, {
     auth: {
         "username": "NHOEventsdmin",
-        "password": "SOSh3AWDPC4499GTbYhxY8",
+        "password": "Giks@123456789",
     },
     useNewUrlParser: true,
     useUnifiedTopology: true
