@@ -49,50 +49,22 @@ const {
   approveAbstractPaperByAdmin,
 } = require("../controller/AbstractFileSubmission");
 // ========================
-const {
-  uploadUserFullPaperFiles,
-  saveFullPaper,
-  getFullPaper,
-  getFullPaperById,
-} = require("../controller/FullPaperSubmission");
-const { getCounters } = require("../controller/Counters");
-const {
-  getRegistredUserExcel,
-} = require("../controller/DownloadRegistredUserExcel");
-const {
-  verifyAttendanceStatus,
-  verifyAttendanceStatusByPassword,
-  getUserInfoForAttendance,
-} = require("../controller/AttendanceStatus");
-const { paymentIntegration } = require("../controller/Razorpay");
-const {
-  saveExhibitorData,
-  getExhibitorData,
-} = require("../controller/Exhibitor");
-const {
-  saveUserMannualTransactionDetails,
-  getMannualPaymentInfo,
-} = require("../controller/MannualPayment");
-const {
-  updateFeeManuallyByAdmin,
-  sendQrCodeToUserOnEmail,
-  getUserInfoForQr,
-} = require("../controller/UpdateFeeManually");
-const {
-  downloadAbstractUserList,
-} = require("../controller/DownloadAbstractUploadUserList");
-const {
-  downloadFullPaperList,
-} = require("../controller/DownloadFullPaperList");
-const { downloadUserExcelList } = require("../controller/DownloadUserExcel");
-const {
-  getUserInfoForCertificate,
-  sendEmailToUserForDownloadCertificate,
-} = require("../controller/DownloadCertificate");
-const {
-  getRegistredUserInfoByEmail,
-} = require("../controller/GetRegistredUserInfoByEmail");
-const { handle404Route } = require("../controller/404");
+const { uploadUserFullPaperFiles, saveFullPaper, getFullPaper, getFullPaperById } = require('../controller/FullPaperSubmission')
+const { getCounters } = require('../controller/Counters')
+const { getRegistredUserExcel } = require('../controller/DownloadRegistredUserExcel')
+const { verifyAttendanceStatus, verifyAttendanceStatusByPassword, getUserInfoForAttendance } = require('../controller/AttendanceStatus')
+const { paymentIntegration } = require('../controller/Razorpay')
+const { saveExhibitorData, getExhibitorData } = require('../controller/Exhibitor')
+const { saveUserMannualTransactionDetails, getMannualPaymentInfo } = require('../controller/MannualPayment')
+const { updateFeeManuallyByAdmin , sendQrCodeToUserOnEmail, getUserInfoForQr} = require("../controller/UpdateFeeManually")
+const {downloadAbstractUserList} = require('../controller/DownloadAbstractUploadUserList')
+const {downloadFullPaperList} = require('../controller/DownloadFullPaperList')
+const{ downloadUserExcelList} = require('../controller/DownloadUserExcel')
+const {getUserInfoForCertificate, sendEmailToUserForDownloadCertificate} = require('../controller/DownloadCertificate')
+const {getRegistredUserInfoByEmail} = require('../controller/GetRegistredUserInfoByEmail')
+const {sendEmailToAllUsers} = require('../controller/SendMailToUser')
+// sendEmailToAllUsers
+const { handle404Route } = require('../controller/404')
 
 router.post("/signup", register);
 router.post("/login", login);
@@ -131,24 +103,37 @@ router.get("/getFullPaperList/:userId", getFullPaperById),
 router.post("/markattendances", verifyAttendanceStatusByPassword);
 router.get("/getuserinfoforattendance/:id", getUserInfoForAttendance);
 
-router.put("/forgot", forgotPassword);
-router.post("/payment", paymentIntegration);
-router.post("/exhibitor", saveExhibitorData);
-router.get("/getexhibitor", getExhibitorData);
-router.post("/savepaymentdetails", saveUserMannualTransactionDetails);
-router.get("/transaction", checkAuthentication, getMannualPaymentInfo);
-router.get("/update_transction_details/:id", updateFeeManuallyByAdmin);
-router.get("/generateqrcode/:id", sendQrCodeToUserOnEmail);
-router.get("/download_abstarct_list", downloadAbstractUserList);
-router.get("/download_fullPaper_list", downloadFullPaperList);
-router.get("/getuserqrinfo/:id", getUserInfoForQr);
-router.get("/userexcel", downloadUserExcelList);
-router.get("/generate_certificate/:id", getUserInfoForCertificate);
-router.get(
-  "/sendemailtodownloadcertificate/:id",
-  sendEmailToUserForDownloadCertificate
-);
-router.get("/getuserinfo/:id", getRegistredUserInfoByEmail);
+router.get('/sponsor', checkAuthentication,  getSponsors)
+router.get('/counters', checkAuthentication, getCounters)
+router.post('/saveabstractpaper', checkAuthentication, saveAbstractPaper);
+router.get('/getabstractpaper', checkAuthentication, getAbstractPaper);
+router.get('/getabstractpaper/:userId', getAbstractPaperById),
+router.put('/approvefilesubmission', approveAbstractPaperByAdmin)
+router.post('/fullPaperSubmition', checkAuthentication, saveFullPaper )
+router.get('/getFullPaperList',checkAuthentication, getFullPaper);
+router.get('/getFullPaperList/:userId', getFullPaperById),
+router.get('/downloadexcel',  getRegistredUserExcel),
+router.post('/attendance/:id',checkAuthentication, verifyAttendanceStatus)
+router.post('/markattendances', verifyAttendanceStatusByPassword )
+router.get('/getuserinfoforattendance/:id', getUserInfoForAttendance)
+
+router.put('/forgot', forgotPassword)
+router.post('/payment', paymentIntegration)
+router.post('/exhibitor', saveExhibitorData )
+router.get('/getexhibitor', getExhibitorData)
+router.post('/savepaymentdetails', saveUserMannualTransactionDetails)
+router.get('/transaction',checkAuthentication, getMannualPaymentInfo)
+router.get("/update_transction_details/:id", updateFeeManuallyByAdmin)
+router.get('/generateqrcode/:id', sendQrCodeToUserOnEmail)
+router.get('/download_abstarct_list', downloadAbstractUserList)
+router.get('/download_fullPaper_list', downloadFullPaperList)
+router.get('/getuserqrinfo/:id', getUserInfoForQr)
+router.get('/userexcel',downloadUserExcelList )
+router.get('/generate_certificate/:id', getUserInfoForCertificate)
+router.get('/sendemailtodownloadcertificate/:id', sendEmailToUserForDownloadCertificate )
+router.get('/sendEmailToAllUsers/:id', sendEmailToAllUsers )
+// sendEmailToAllUsers
+router.get('/getuserinfo/:id', getRegistredUserInfoByEmail)
 // getRegistredUserInfoByEmail
 router.get("/*", handle404Route);
 

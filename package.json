@@ -26,7 +26,7 @@
     "nodemailer": "^6.7.2",
     "nodemailer-express-handlebars": "^4.0.0",
     "nodemon": "^2.0.18",
-    "qrcode": "^1.5.1",
+    "qrcode": "^1.5.3",
     "razorpay": "^2.8.1"
   }
 }
