@@ -80,38 +80,40 @@ exports.approveAbstractPaperByAdmin = async (req, res) => {
 //             port: 587,
 //             secure: false,
 //             auth: {
-//                 user: "info@42inca.org",
-//                 pass: "Giks@123",
+//                 user: "info@43inca.org",
+//                 pass: "Inca@0623",
 //             },
 //         });
 
 
 //         let info = await transporter.sendMail({
-//             from: 'info@42inca.org',
+//             from: 'info@43inca.org',
 //             to: userEmail,
-//             subject: "Abstract Approved for 42<sup>nd</sup>  INCA ✔",
+//             subject: "Abstract Approved for 43 rd INCA ✔",
 //             html: `<div>
 //             <P>
 //                 Dear ${userName},<br>
 //                 <p>
-//                     Your Abstract is ${status} for 42<sup>nd</sup> INCA International Congress. Please pay the fee if not paid to confirm your participation the event.              
+//                     Your Abstract is ${status} for 43<sup>rd</sup> INCA International Congress. Please pay the fee if not paid to confirm your participation the event.              
 //                 </P>
 //             </P>
 //             <p>
-//             Please contact the local organizing committee for any queries.<br>
-//             Moblie Number : +91-9897038700<br>
-//             Email : info@42inca.org<br>          
-//             Address : National Hydrographic Office <br>
-//                 107-A, Rajpur Rd,  Post Box – 75, Dehradun,<br>
-//                  Uttarakhand 248001.
+//             Please contact the local organizing committee for queries.<br>
+            // Organising Secretary<br>
+            // Moblie Number : 91 291 2796400<br>
+            // Email : info@43inca.org<br>          
+            // Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
+            // ISRO Complex, Bypass Road<br>
+            // Sector 9, Kudi Bhagtasani Housing Board (KBHB)<br>
+            // Jodhpur - 342 005, Rajasthan, India
 //             </p>
 //          </div>
 //          <div>
 //             <p>
 //                 Thank You,<br><br>
 //                 Regards
-//                 42 INCA<br>
-//                 NHO, Dehradun
+//                 43 INCA<br>
+//                 ISRO, Jodhpur
 //             </p>
 //          </div>
 //          <div>
