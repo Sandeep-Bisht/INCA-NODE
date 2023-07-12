@@ -53,16 +53,16 @@ let sendEmailViaSmtp = async (userEmail) => {
             port: 587,
             secure: false,
             auth: {
-                user: "info@42inca.org",
-                pass: "Giks@123",
+                user: "info@43inca.org",
+                pass: "Inca@0623",
             },
         });
 
 
         let info = await transporter.sendMail({
-            from: 'info@42inca.org',
+            from: 'info@43inca.org',
             to: userEmail,
-            subject: "Register for NHO event ✔",
+            subject: "Register for 43 rd INCA event ✔",
             html: `<div>You are successfully register for our event use this password <b>${generatePassword()}</b> for login process</div>`, // html body
         });
 

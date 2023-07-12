@@ -7,7 +7,7 @@ mongoose.connect(process.env.db_url, {
         // "username": "NHOEventsdmin",
         "username" : "NHOEventsdmin",
         "password": "SOSh3AWDPC4499GTbYhxY8"
-        // "password": "Giks@123456789",
+        // "password": "Inca@0623456789",
     },
     useNewUrlParser: true,
     useUnifiedTopology: true

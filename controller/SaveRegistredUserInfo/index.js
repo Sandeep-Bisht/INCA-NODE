@@ -56,21 +56,21 @@ let sendEmailViaSmtp = async (userName, userEmail, password) => {
         port: 587,
         secure: false,
         auth: {
-          user: "info@42inca.org",
-          pass: "Giks@123",
+          user: "info@43inca.org",
+          pass: "Inca@0623",
         },
       });
   
       let info = await transporter.sendMail({
-        from: "info@42inca.org",
+        from: "info@43inca.org",
         to: userEmail,
-        subject: "Register for NHO event ✔",
+        subject: "Register for 43 rd INCA event ✔",
         html: `
               <div>
               <P>
                   Dear ${userName},<br>
                   <p>
-                  Thank you for creating your login credentials for 42nd INCA International Confernce.
+                  Thank you for creating your login credentials for 43rd INCA International Conference.
                   </P>
               </P>
                <p>
@@ -79,19 +79,21 @@ let sendEmailViaSmtp = async (userName, userEmail, password) => {
                   Password : ${password}</b>
               </p>
               <p>
-              Please contact the local organizing committee for any queries.<br>
-              Mobile Number : 9897038700<br>
-              Email : mailto:info@42inca.org<br>          
-              Address : National Hydrographic Office <br>
-                  107-A, Rajpur Rd, Post Box – 75, Dehradun,<br>
-                   Uttarakhand 248001.
+              Please contact the local organizing committee for queries.<br>
+            Organising Secretary<br>
+            Moblie Number : 91 291 2796400<br>
+            Email : info@43inca.org<br>          
+            Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
+            ISRO Complex, Bypass Road<br>
+            Sector 9, Kudi Bhagtasani Housing Board (KBHB)<br>
+            Jodhpur - 342 005, Rajasthan, India
               </p>
            </div>
            <div>
               <p>
               Thanks & Regards,<br>
-                  42 INCA<br>
-                  NHO, Dehradun
+                  43 INCA<br>
+                  ISRO, Jodhpur
               </p>
            </div>
            <div>
