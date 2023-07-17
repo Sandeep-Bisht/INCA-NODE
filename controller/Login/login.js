@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 let users = require('../../models/user')
 
 function generateAccessToken(user) {
-    return jwt.sign({ user }, "6210607b75c134501baa290c", { expiresIn: '1800s' });
+    return jwt.sign({ user }, "6210607b75c134501baa290c", { expiresIn: '6000s' });
 }
 
 
