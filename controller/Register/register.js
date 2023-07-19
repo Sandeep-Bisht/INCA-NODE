@@ -144,11 +144,9 @@ exports.register = async (req, res) => {
         if (response.messageId) {
           let res = await sendEmailToAdmin(userName, userEmail)
           if(res){
-            console.log("inside if ", response);
           emailSendStatus = true;
           }          
         } else {
-          console.log("inside else ", response);
           emailSendStatus = false;
         }
         res.send({

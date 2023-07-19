@@ -8,7 +8,6 @@ function generateAccessToken(user) {
 
 exports.login = async (req, res) => {
     let { userEmail, password } = req.body
-    console.log("inside login", userEmail, "pase", password)
     if (userEmail == "" && password == "") {
         return res.send({ message: "Please fill the field" })
     }

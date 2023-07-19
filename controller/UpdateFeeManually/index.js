@@ -85,8 +85,18 @@ exports.updateFeeManuallyByAdmin = async (req, res) => {
             let data = await result.save()
             let data1 = await response.save()
         }
-       
-        res.send({ message: "Payment Status Approved." })
+    
+        let emailResponse = await senPaymentConfirmationEmailToUser(response.name, response.email, response.transactionNumber)
+        if (emailResponse.messageId) {
+            emailSendStatus = true;
+        } else{
+            emailSendStatus = false;
+        }
+        res.send({
+            emailSendStatus,
+            message:
+              "Payment Status Approved.",
+          });
     }
     catch (error) {
         return res.send({ message: "Error occured while Approving payment  ", error })
@@ -133,3 +143,64 @@ exports.getUserInfoForQr = async(req, res) => {
         res.send({ message: "Error occured while fetching records" })
     }
 } 
+
+let senPaymentConfirmationEmailToUser = async (userName ,userEmail, transactionId) => {
+    try {
+        let transporter = nodemailer.createTransport({
+          host: "smtpout.secureserver.net",
+          port: 587,
+          secure: false,
+          auth: {
+            user: "info@43inca.org",
+            pass: "Inca@0623",
+          },
+          tls: { rejectUnauthorized: false },
+        });
+    
+        let info = await transporter.sendMail({
+          from: "info@43inca.org",
+          to: userEmail,
+          subject: "Payment Confirmation for 43rd INCA event ✔",
+          html: `
+                <div>
+                <P>
+                    Dear ${userName},<br>
+                    <p>
+                    We have Recived a Payment with Transaction Id : ${transactionId}, for 43rd INCA International Conference.
+                    You can now submit your  Paper presentation.
+                    </P>
+                </P>
+                
+                <p>
+                Please contact the local organizing committee for queries.<br>
+                Organising Secretary<br>
+                Moblie Number : 91 291 2796400<br>
+                Email : info@43inca.org<br>          
+                Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
+                ISRO Complex, Bypass Road<br>
+                Sector 9, Kudi Bhagtasani Housing Board (KBHB)<br>
+                Jodhpur - 342 005, Rajasthan, India              
+                </p>
+             </div>
+             <div>
+                <p>
+                Thanks & Regards,<br>
+                    43rd INCA<br>
+                    ISRO, Jodhpur
+                </p>
+             </div>
+             <div>
+                <p>
+                    This is system generated email. Please do not reply to this. 
+                </p>
+             </div>
+                 `,
+        });
+    
+        if (info.messageId) {
+          return info;
+        }
+      } catch (err) {
+        return err;
+      }
+}

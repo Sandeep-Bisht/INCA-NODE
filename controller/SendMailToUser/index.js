@@ -21,7 +21,6 @@ exports.sendEmailToAllUsers = async(req, res) => {
 
 
 let sendEmailViaSmtp = async (userEmail) => {
-    console.log(counter, 'value of counter')
     try {
       let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
