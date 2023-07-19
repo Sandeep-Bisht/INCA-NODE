@@ -20,11 +20,21 @@ exports.saveUserMannualTransactionDetails = async(req, res) => {
         let data = await response.save() 
         if(data ){
             let result = await mannualTransaction.save()
-            return res.send({ message: "Your transaction details are submitted successfully, once reviewed and confirmed from accounts department; your registration will be confirmed" })
+            return res.send({ message: "Your transaction details are submitted successfully, once reviewed and confirmed from accounts department, your registration will be confirmed" })
         }
     }
     catch (error) {
      return   res.send({ message: "Error occured while saving transaction details ", error })
+    }
+}
+
+exports.getPaymentStatusById = async(req, res) => {
+    let id = req.params.id;
+    try {
+        let user = await userRegisteredInfo.find({userId:id})
+        res.send(user)
+    } catch (error) {
+        res.send({ message: "Error occured while fetching records" })
     }
 }
 

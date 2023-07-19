@@ -8,8 +8,7 @@ exports.getUserInfoForCertificate = async(req, res) => {
     try {
         let user = await abstractPaper.find({userEmail:email})
         let response = await registredUserInfo.find({email:email})
-        console.log(response, 'response')
-        console.log(user, 'userss')
+        
         let newResponse = {
           userName:user.length > 0  ? user[0].userName : response[0].name ,
           abstractPaperName:user.length > 0  ? user[0].abstractPaperName : "",

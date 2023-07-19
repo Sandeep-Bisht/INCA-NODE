@@ -49,7 +49,7 @@ exports.getAbstractPaperById = async (req, res) => {
 
 
 exports.approveAbstractPaperByAdmin = async (req, res) => {
-    
+    console.log("inside approve abstarct", req.body)
     let { docsId, paperApproveStatus } = req.body
     try {
         let userPaper = await abstractPaper.findById(docsId)
@@ -58,14 +58,20 @@ exports.approveAbstractPaperByAdmin = async (req, res) => {
         let result = await abstractData.save();
         if(paperApproveStatus){
             var emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.userEmail, "Approved")
+            if (emailResponse.messageId ) {
+                res.send({ status : "Approved",
+                 message: "Email is sent on your registred mail. Please check your email for further process", })
+            }
         }
         else {
-            var emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.userEmail, "Reject")
+            var emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.userEmail, "Rejected")
+            if (emailResponse.messageId ) {
+                res.send({ status : "Rejected",
+                    message: "Email is sent on your registred mail. Please check your email for further process", })
+            }
         }
         
-        if (emailResponse.messageId) {
-            res.send({ message: "Email is sent on your registred mail. Please check your email for further process", })
-        }
+        
 
     } catch (error) {
 
@@ -73,61 +79,62 @@ exports.approveAbstractPaperByAdmin = async (req, res) => {
     }
 }
 
-// let sendEmailViaSmtp = async (userName, userEmail, status) => {
-//     try {
-//         let transporter = nodemailer.createTransport({
-//             host: "smtp.gmail.com",
-//             port: 587,
-//             secure: false,
-//             auth: {
-//                 user: "info@43inca.org",
-//                 pass: "Inca@0623",
-//             },
-//         });
+let sendEmailViaSmtp = async (userName, userEmail, status) => {
+    try {
+        let transporter = nodemailer.createTransport({
+            host: "smtpout.secureserver.net",
+            port: 587,
+            secure: false,
+            auth: {
+                user: "info@43inca.org",
+                pass: "Inca@0623",
+            },
+            tls: { rejectUnauthorized: false },
+        });
 
 
-//         let info = await transporter.sendMail({
-//             from: 'info@43inca.org',
-//             to: userEmail,
-//             subject: "Abstract Approved for 43 rd INCA ✔",
-//             html: `<div>
-//             <P>
-//                 Dear ${userName},<br>
-//                 <p>
-//                     Your Abstract is ${status} for 43<sup>rd</sup> INCA International Congress. Please pay the fee if not paid to confirm your participation the event.              
-//                 </P>
-//             </P>
-//             <p>
-//             Please contact the local organizing committee for queries.<br>
-            // Organising Secretary<br>
-            // Moblie Number : 91 291 2796400<br>
-            // Email : info@43inca.org<br>          
-            // Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
-            // ISRO Complex, Bypass Road<br>
-            // Sector 9, Kudi Bhagtasani Housing Board (KBHB)<br>
-            // Jodhpur - 342 005, Rajasthan, India
-//             </p>
-//          </div>
-//          <div>
-//             <p>
-//                 Thank You,<br><br>
-//                 Regards
-//                 43 INCA<br>
-//                 ISRO, Jodhpur
-//             </p>
-//          </div>
-//          <div>
-//             <p>
-//             *This is a system genrated email, please do not reply on this email.
-//             </p>
-//          </div>`, // html body
-//         });
+        let info = await transporter.sendMail({
+            from: 'info@43inca.org',
+            to: userEmail,
+            subject: "Abstract Approved for 43 rd INCA ✔",
+            html: `<div>
+            <P>
+                Dear ${userName},<br>
+                <p>
+                    Your Abstract is ${status} for 43<sup>rd</sup> INCA International Congress. Please pay the fee if not paid to confirm your participation the event.              
+                </P>
+            </P>
+            <p>
+            Please contact the local organizing committee for queries.<br>
+            Organising Secretary<br>
+            Moblie Number : 91 291 2796400<br>
+            Email : info@43inca.org<br>          
+            Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
+            ISRO Complex, Bypass Road<br>
+            Sector 9, Kudi Bhagtasani Housing Board (KBHB)<br>
+            Jodhpur - 342 005, Rajasthan, India
+            </p>
+         </div>
+         <div>
+            <p>
+                Thank You,<br><br>
+                Regards
+                43 INCA<br>
+                ISRO, Jodhpur
+            </p>
+         </div>
+         <div>
+            <p>
+            *This is a system genrated email, please do not reply on this email.
+            </p>
+         </div>`, // html body
+        });
 
-//         if (info.messageId) {
-//             return info
-//         }
-//     }
-//     catch (err) {
-//         return err
-//     }
-// }
+        if (info.messageId) {
+            return info
+        }
+    }
+    catch (err) {
+        return err
+    }
+}
