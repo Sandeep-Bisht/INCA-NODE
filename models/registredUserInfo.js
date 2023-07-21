@@ -21,6 +21,8 @@ let registredUserInfoSchema = new Schema({
     accomodationDetail: { type: String },
     theme:{ type : String},
     registrationCategory: { type: String },
+    universityName:{ type : String },
+    lifeMemberNo : {type : String},
     registrationFee: { type: String },
     transactionId: { type: Number },
     bank: { type: String },
