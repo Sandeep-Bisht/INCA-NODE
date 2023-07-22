@@ -13,12 +13,28 @@ exports.uploadUserFiles = async (req, res) => {
 }
 
 exports.saveAbstractPaper = async (req, res) => {
-    const { abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, paperApproveStatus, userEmail, userName, themeType , mannualPaymentStatus} = req.body
-    let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
-    let registrationNumber = result.registrationNumber
-    let abstractData = new abstractPaper({ paperApproveStatus, abstractPaperName, abstractPaperDescription, mimetype, abstractFileUrl, userId, userEmail, userName, themeType,mannualPaymentStatus, registrationNumber})
+    console.log("inisde save abstract", req.body)
+    
+    
+    const { authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, themeType , mannualPaymentStatus} = req.body
+    let result = await userRegisteredInfo.findOne({email: authorEmail}, {registrationNumber: 1})
+    let registrationNumber = result?.registrationNumber
+
+    
+    let abstractData = new abstractPaper({ authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, themeType, mannualPaymentStatus, registrationNumber})
     try {
+
+        let lastRecord = await getLastRecordFromTable(authorEmail)
+    if(lastRecord  && lastRecord.abstractNumber != undefined){
+        let val =  parseInt(lastRecord.abstractNumber.split("A")[1]) + 1
+        abstractData.abstractNumber = `43IA${val.toString().padStart(4, '0')}`;
+        // info.abstractNumber = `43IA${val}`
+    }
+    else {
+        abstractData.abstractNumber = "43IA0005"
+    }
         let result = await abstractData.save()
+       
         res.send({ message: "data saved successfully", })
     }
     catch (error) {
@@ -137,4 +153,9 @@ let sendEmailViaSmtp = async (userName, userEmail, status) => {
     catch (err) {
         return err
     }
+}
+
+let getLastRecordFromTable = async () => {
+    let response = await abstractPaper.findOne().sort({"_id":-1}).limit(1)
+    return response
 }
