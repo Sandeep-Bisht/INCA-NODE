@@ -66,6 +66,7 @@ const {sendEmailToAllUsers} = require('../controller/SendMailToUser')
 // sendEmailToAllUsers
 const { handle404Route } = require('../controller/404')
 
+
 router.post("/signup", register);
 router.post("/login", login);
 router.get("/users", checkAuthentication, getUsers);
