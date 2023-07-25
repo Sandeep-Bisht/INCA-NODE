@@ -11,15 +11,27 @@ exports.uploadUserFullPaperFiles = async (req, res) => {
 }
 
 exports.saveFullPaper = async (req, res) => {
-     const { fullPaperName, mimetype, fullPaperFileUrl, themeType, userId, userEmail, userName} = req.body
+     const {userName, authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, paperPresentationType, fullPaperName, mimetype, fullPaperFileUrl, themeType, userId, userEmail} = req.body
+     console.log("inisde save full paper", req.body)
      let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
-     let registrationNumber = result.registrationNumber;
-    let fullPaperData = new fullPaper({ fullPaperName, mimetype, fullPaperFileUrl, themeType, userId, userEmail, userName,  registrationNumber})        
+     let registrationNumber = result?.registrationNumber;
+    let fullPaperData = new fullPaper({userName, authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, paperPresentationType, coAuthorDetails, fullPaperName, mimetype, fullPaperFileUrl, themeType, userId,  registrationNumber})        
      try {
+
+            let lastRecord = await getLastRecordFromTable(authorEmail)
+    if(lastRecord  && lastRecord.fullPaperNumber != undefined){
+        let val =  parseInt(lastRecord.fullPaperNumber.split("F")[1]) + 1
+        fullPaperData.fullPaperNumber = `43IA${val.toString().padStart(4, '0')}`;
+        // info.abstractNumber = `43IF${val}`
+    }
+    else {
+        fullPaperData.fullPaperNumber = "43IF0005"
+    }
         let result = await fullPaperData.save()
         res.send({ message: "data saved successfully", })
     }
     catch (error) {
+        console.log(error)
         res.send({ message: "Error occured while saving Fullpaper", error })
     }
 }
@@ -44,4 +56,9 @@ exports.getFullPaperById = async (req, res) => {
     } catch (error) {
         res.send({ message: "Error occured while fetching records" })
     }
+}
+
+let getLastRecordFromTable = async () => {
+    let response = await fullPaper.findOne().sort({"_id":-1}).limit(1)
+    return response
 }
