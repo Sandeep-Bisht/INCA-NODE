@@ -16,12 +16,12 @@ exports.saveAbstractPaper = async (req, res) => {
     console.log("inisde save abstract", req.body)
     
     
-    const { authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, themeType , mannualPaymentStatus} = req.body
+    const { userName,authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, themeType , mannualPaymentStatus} = req.body
     let result = await userRegisteredInfo.findOne({email: authorEmail}, {registrationNumber: 1})
     let registrationNumber = result?.registrationNumber
 
     
-    let abstractData = new abstractPaper({ authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, themeType, mannualPaymentStatus, registrationNumber})
+    let abstractData = new abstractPaper({ userName,authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, themeType, mannualPaymentStatus, registrationNumber})
     try {
 
         let lastRecord = await getLastRecordFromTable(authorEmail)
@@ -123,7 +123,7 @@ let sendEmailViaSmtp = async (userName, userEmail, status) => {
             <p>
             Please contact the local organizing committee for queries.<br>
             Organising Secretary<br>
-            Moblie Number : 91 291 2796400<br>
+            Moblie Number : 91<br>
             Email : info@43inca.org<br>          
             Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
             ISRO Complex, Bypass Road<br>

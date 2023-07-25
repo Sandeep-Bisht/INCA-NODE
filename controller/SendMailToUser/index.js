@@ -44,7 +44,7 @@ let sendEmailViaSmtp = async (userEmail) => {
               <p>
               Please contact the local organizing committee for queries.<br>
               Organising Secretary<br>
-              Moblie Number : 91 291 2796400<br>
+              Moblie Number : 91 291 2796395<br>
               Email : info@43inca.org<br>          
               Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
               ISRO Complex, Bypass Road<br>
