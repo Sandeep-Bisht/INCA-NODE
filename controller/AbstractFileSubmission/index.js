@@ -70,10 +70,11 @@ exports.approveAbstractPaperByAdmin = async (req, res) => {
     try {
         let userPaper = await abstractPaper.findById(docsId)
         userPaper.paperApproveStatus = paperApproveStatus
+        console.log("inside userPaper abstarct", userPaper)
         let abstractData = new abstractPaper(userPaper)
         let result = await abstractData.save();
         if(paperApproveStatus){
-            var emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.userEmail, "Approved")
+            var emailResponse = await sendEmailViaSmtp(userPaper.userName, userPaper.authorEmail, "Approved")
             if (emailResponse.messageId ) {
                 res.send({ status : "Approved",
                  message: "Email is sent on your registred mail. Please check your email for further process", })
@@ -96,6 +97,7 @@ exports.approveAbstractPaperByAdmin = async (req, res) => {
 }
 
 let sendEmailViaSmtp = async (userName, userEmail, status) => {
+    console.log("inside send email",userName, userEmail,status)
     try {
         let transporter = nodemailer.createTransport({
             host: "smtpout.secureserver.net",
@@ -123,7 +125,7 @@ let sendEmailViaSmtp = async (userName, userEmail, status) => {
             <p>
             Please contact the local organizing committee for queries.<br>
             Organising Secretary<br>
-            Moblie Number : 91<br>
+            Moblie Number : 91 291 2796395<br>
             Email : info@43inca.org<br>          
             Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
             ISRO Complex, Bypass Road<br>
