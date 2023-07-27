@@ -7,11 +7,16 @@ exports.getUserInfoForCertificate = async(req, res) => {
     var email = req.params.id;
     try {
         let user = await abstractPaper.find({userEmail:email})
-        let response = await registredUserInfo.find({email:email})
-        
+        let response = await registredUserInfo.find({email:email});
+        // let userName = "Dr. Sucheta Mukherjee";
+        // let designation = "Kalyani University"
+        // let abstractPaperName = "An assessment of water quality of Bhagirathi river using geospatial techniques for Murshidabad District, India";
         let newResponse = {
+          // userName,
           userName:user.length > 0  ? user[0].userName : response[0].name ,
           abstractPaperName:user.length > 0  ? user[0].abstractPaperName : "",
+          // abstractPaperName,
+          // designation
           designation:response[0].designation
         }
         let arr = [];
@@ -22,11 +27,14 @@ exports.getUserInfoForCertificate = async(req, res) => {
     }
 } 
 
-exports.sendEmailToUserForDownloadCertificate = async(req, res) => {
+exports.sendEmailToUserForDownloadCertificate = async(req, res) => { 
+  
     var id = req.params.id;
+    console.log("inisde download certificate", id )
     try {
         let user = await registredUserInfo.find({registrationNumber:id})
        let result = await sendEmailViaSmtp(user[0].name, user[0].email, user[0].registrationNumber)
+       console.log(result, "resultttttttttt")
        if(result.messageId){
             res.send({message:"Email sent successfully"})
        } 
@@ -39,24 +47,25 @@ exports.sendEmailToUserForDownloadCertificate = async(req, res) => {
 let sendEmailViaSmtp = async (userName, userEmail, registrationNumber) => {
     try {
       let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
+        host: "smtpout.secureserver.net",
         port: 587,
         secure: false,
         auth: {
           user: "info@43inca.org",
           pass: "Inca@0623",
         },
+        tls: { rejectUnauthorized: false },
       });
   
       let info = await transporter.sendMail({
         from: "info@43inca.org",
         to: userEmail,
-        subject: "Register for 43 rd INCA event ✔",
+        subject: "certificate for 43 rd INCA event ✔",
         html: `
               <div>
               <P>
                 Dear ${userName},<br>
-                <a href="http://43inca.org/certificate/${userEmail}">Please click the and download the your certificate</a>
+                <a href="http://localhost:3000/certificate/${userEmail}">Please click the and download the your certificate</a>
               </p>
               <p>
               Please contact the local organizing committee for queries.<br>

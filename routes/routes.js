@@ -64,7 +64,8 @@ const {getUserInfoForCertificate, sendEmailToUserForDownloadCertificate} = requi
 const {getRegistredUserInfoByEmail} = require('../controller/GetRegistredUserInfoByEmail')
 const {sendEmailToAllUsers} = require('../controller/SendMailToUser')
 // sendEmailToAllUsers
-const { handle404Route } = require('../controller/404')
+const { handle404Route } = require('../controller/404');
+const { contactInca } = require("../controller/ContactUsController")
 
 
 router.post("/signup", register);
@@ -90,6 +91,7 @@ router.post(
   uploadUserFullPaperFiles
 );
 
+router.post("/contact-us", checkAuthentication, contactInca);
 router.get("/sponsor", checkAuthentication, getSponsors);
 router.get("/counters", checkAuthentication, getCounters);
 router.post("/saveabstractpaper", checkAuthentication, saveAbstractPaper);
