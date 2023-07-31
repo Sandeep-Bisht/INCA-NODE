@@ -121,7 +121,7 @@ let addUniqueUsers = async (userEmail) => {
 }
 
 exports.saveRegistredUserInfo = async (req, res) => {
-    console.log("inisde save data", req.body)
+    // console.log("inisde save data", req.body)
     let info = new userRegisteredInfo(req.body)
     let result = await getLastRecordFromTable()
     if(result  && result.registrationNumber != undefined){

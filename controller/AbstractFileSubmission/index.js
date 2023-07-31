@@ -13,7 +13,7 @@ exports.uploadUserFiles = async (req, res) => {
 }
 
 exports.saveAbstractPaper = async (req, res) => {
-    console.log("inisde save abstract", req.body)
+    // console.log("inisde save abstract", req.body)
     
     
     const { userName,authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, paperPresentationType, themeType , mannualPaymentStatus} = req.body
@@ -65,12 +65,12 @@ exports.getAbstractPaperById = async (req, res) => {
 
 
 exports.approveAbstractPaperByAdmin = async (req, res) => {
-    console.log("inside approve abstarct", req.body)
+    // console.log("inside approve abstarct", req.body)
     let { docsId, paperApproveStatus } = req.body
     try {
         let userPaper = await abstractPaper.findById(docsId)
         userPaper.paperApproveStatus = paperApproveStatus
-        console.log("inside userPaper abstarct", userPaper)
+        // console.log("inside userPaper abstarct", userPaper)
         let abstractData = new abstractPaper(userPaper)
         let result = await abstractData.save();
         if(paperApproveStatus){
@@ -97,7 +97,7 @@ exports.approveAbstractPaperByAdmin = async (req, res) => {
 }
 
 let sendEmailViaSmtp = async (userName, userEmail, status) => {
-    console.log("inside send email",userName, userEmail,status)
+    // console.log("inside send email",userName, userEmail,status)
     try {
         let transporter = nodemailer.createTransport({
             host: "smtpout.secureserver.net",

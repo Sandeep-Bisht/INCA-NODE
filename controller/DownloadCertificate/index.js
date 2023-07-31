@@ -30,11 +30,11 @@ exports.getUserInfoForCertificate = async(req, res) => {
 exports.sendEmailToUserForDownloadCertificate = async(req, res) => { 
   
     var id = req.params.id;
-    console.log("inisde download certificate", id )
+    // console.log("inisde download certificate", id )
     try {
         let user = await registredUserInfo.find({registrationNumber:id})
        let result = await sendEmailViaSmtp(user[0].name, user[0].email, user[0].registrationNumber)
-       console.log(result, "resultttttttttt")
+      //  console.log(result, "resultttttttttt")
        if(result.messageId){
             res.send({message:"Email sent successfully"})
        } 
