@@ -16,12 +16,12 @@ exports.saveAbstractPaper = async (req, res) => {
     console.log("inisde save abstract", req.body)
     
     
-    const { userName,authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, themeType , mannualPaymentStatus} = req.body
+    const { userName,authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, paperPresentationType, themeType , mannualPaymentStatus} = req.body
     let result = await userRegisteredInfo.findOne({email: authorEmail}, {registrationNumber: 1})
     let registrationNumber = result?.registrationNumber
 
     
-    let abstractData = new abstractPaper({ userName,authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, themeType, mannualPaymentStatus, registrationNumber})
+    let abstractData = new abstractPaper({ userName,authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus,paperPresentationType, themeType, mannualPaymentStatus, registrationNumber})
     try {
 
         let lastRecord = await getLastRecordFromTable(authorEmail)
