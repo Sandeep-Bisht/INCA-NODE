@@ -19,7 +19,7 @@ let registredUserInfoSchema = new Schema({
     departureDate: { type: String },
     accompanningPerson: { type: Array },
     accomodationDetail: { type: String },
-    theme:{ type : String},
+    // theme:{ type : String},
     registrationCategory: { type: String },
     universityName:{ type : String },
     lifeMemberNo : {type : String},
