@@ -9,7 +9,6 @@ exports.contactInca = async (req, res) => {
                 message: "Thankyu for contacting." })
                    
           } else {
-            // console.log("resonse", response)
             emailSendStatus = false;
             return res.send({ emailSendStatus ,
                 message: "Please try again." })
