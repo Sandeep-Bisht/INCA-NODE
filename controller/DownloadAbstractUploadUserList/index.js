@@ -3,12 +3,12 @@ const merge = require('deepmerge')
 let abstractPaper = require('../../models/abstractPaper')
 let registredUserInfo = require('../../models/registredUserInfo')
 exports.downloadAbstractUserList = async (req, res) => {
-    let response = await registredUserInfo.find({}, {designation:1, conferenceMode:1, registrationCategory:1, participationType:1, email:1})
+    let response = await registredUserInfo.find({}, {designation:1, registrationCategory:1, participationType:1, email:1})
     let arr = []
     const usersList = await abstractPaper.find()
     for(let el of response){
         for(item of usersList){
-            if(el.email === item.userEmail){
+            if(el.email === item.authorEmail){
                 const merged = merge(el, item)
                 arr.push(merged._doc)
             }
@@ -20,12 +20,12 @@ exports.downloadAbstractUserList = async (req, res) => {
         let worksheet = workbook.addWorksheet("arr");
         worksheet.columns = [
             { header: "Registration Number", key:"registrationNumber"},
+            { header: "Abstract Number", key:"abstractNumber"},
             { header: "Name", key: "userName", },
-            { header: "Email", key: "userEmail", },
-            { header: "Document", key: "abstractPaperName",},
+            { header: "Email", key: "authorEmail", },
+            { header: "Abstract Title", key: "abstractPaperName",},
             { header:"Theme", key:"themeType",},
             { header: "Designation", key:"designation"},
-            { header: "Conference Mode", key: "conferenceMode", },
             { header: "Registration Category", key: "registrationCategory" },
             { header: "Participation Type", key: "participationType"},
             { header: "Paper Status", key: "paperApproveStatus"}
