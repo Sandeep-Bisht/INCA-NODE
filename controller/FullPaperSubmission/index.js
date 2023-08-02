@@ -19,7 +19,6 @@ exports.saveFullPaper = async (req, res) => {
      try {
 
             let lastRecord = await getLastRecordFromTable(authorEmail)
-            console.log("last rrcorddddddddddd", lastRecord)
     if(lastRecord  && lastRecord.fullPaperNumber != undefined){
         let val =  parseInt(lastRecord.fullPaperNumber.split("F")[1]) + 1
         fullPaperData.fullPaperNumber = `43IF${val.toString().padStart(4, '0')}`;
