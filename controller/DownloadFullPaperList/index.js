@@ -4,12 +4,13 @@ let registredUserInfo = require('../../models/registredUserInfo')
 let fullPaper = require('../../models/fullPaper')
 
 exports.downloadFullPaperList = async (req, res) => {
-    let response = await registredUserInfo.find({}, {designation:1, conferenceMode:1, registrationCategory:1, participationType:1, email:1})    
+    let response = await registredUserInfo.find({}, {designation:1 ,registrationCategory:1, participationType:1, email:1})    
     let arr = []
+    
     const usersList = await fullPaper.find()
     for(let el of response) {
         for(item of usersList) {
-            if(el.email === item.userEmail) {
+            if(el.email == item.authorEmail) {
                 const merged = merge(el, item)
                 arr.push(merged._doc)
             }
@@ -20,12 +21,12 @@ exports.downloadFullPaperList = async (req, res) => {
         let worksheet = workbook.addWorksheet("arr");
         worksheet.columns = [
             {header: "Registration Number", key:"registrationNumber"},
+            {header: "Fullpaper Number", key:"fullPaperNumber"},
             { header: "Name", key: "userName", },
-            { header: "Email", key: "userEmail", },
-            { header: "Document", key: "fullPaperName",},
-            {header:"Theme", key:"themeType",},
+            { header: "Email", key: "authorEmail", },
             { header: "Designation", key:"designation"},
-            { header: "Conference Mode", key: "conferenceMode", },
+            { header: "Document Title", key: "fullPaperName",},
+            // {header:"Theme", key:"themeType",},            
             { header: "Registration Category", key: "registrationCategory" },
             { header: "Participation Type", key: "participationType"}
         ];

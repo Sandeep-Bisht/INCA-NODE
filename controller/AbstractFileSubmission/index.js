@@ -12,9 +12,7 @@ exports.uploadUserFiles = async (req, res) => {
     }
 }
 
-exports.saveAbstractPaper = async (req, res) => {
-    // console.log("inisde save abstract", req.body)
-    
+exports.saveAbstractPaper = async (req, res) => {    
     
     const { userName,authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, paperPresentationType, themeType , mannualPaymentStatus} = req.body
     let result = await userRegisteredInfo.findOne({email: authorEmail}, {registrationNumber: 1})

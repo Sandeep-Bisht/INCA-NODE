@@ -1,6 +1,5 @@
 const nodemailer = require("nodemailer");
 exports.contactInca = async (req, res) => {
-    console.log("inside contact Inca", req.body)
     const { name, email, number, subject, message} = req.body
     try {
         let response = await sendEmailToAdmin(name, email, number, subject, message);
