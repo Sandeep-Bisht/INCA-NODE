@@ -7,14 +7,15 @@ let sendEmailViaSmtp = async (userName, userEmail, qr) => {
     let res = qr.split('/')
     try {
         let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
+            host: "smtpout.secureserver.net",
             port: 587,
             secure: false,
             auth: {
-                user: "info@43inca.org",
-                pass: "Inca@0623",
+              user: "info@43inca.org",
+              pass: "Inca@0623",
             },
-        });
+            tls: { rejectUnauthorized: false },
+          });
 
 
         let info = await transporter.sendMail({

@@ -49,14 +49,15 @@ let sendEmailViaSmtp = async (userEmail) => {
     let testAccount = await nodemailer.createTestAccount();
     try {
         let transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
+            host: "smtpout.secureserver.net",
             port: 587,
             secure: false,
             auth: {
-                user: "info@43inca.org",
-                pass: "Inca@0623",
+              user: "info@43inca.org",
+              pass: "Inca@0623",
             },
-        });
+            tls: { rejectUnauthorized: false },
+          });
 
 
         let info = await transporter.sendMail({
