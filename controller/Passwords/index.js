@@ -11,22 +11,24 @@ let generatePassword = () => {
 }
 
 let sendEmailViaSmtp = async (userName, userEmail, password) => {
+    console.log("inside emailll", userName, userEmail, password)
     try {
         let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
+            host: "smtpout.secureserver.net",
             port: 587,
             secure: false,
             auth: {
-                user: "info@43inca.org",
-                pass: "Inca@0623",
+              user: "info@43inca.org",
+              pass: "Inca@0623",
             },
-        });
+            tls: { rejectUnauthorized: false },
+          });
 
 
         let info = await transporter.sendMail({
             from: 'info@43inca.org',
             to: userEmail,
-            subject: "Register for 43 rd INCA event ✔",
+            subject: "New Password for 43 rd INCA event ✔",
             html: `<div>
             <P>
                 Dear ${userName},<br>
@@ -74,9 +76,11 @@ let sendEmailViaSmtp = async (userName, userEmail, password) => {
 
 
 exports.forgotPassword = async (req, res) => {
+    
     let { userEmail } = req.body
+    console.log("inside forgot password",userEmail)
     let userObj = await users.findOne({ userEmail })
-    if (userObj == null) return res.send({ message: "Please send the registred email address" });
+    if (userObj == null) return res.send({ message: "Please enter registred email address" });
     userObj.password = generatePassword()
     let result = await sendEmailViaSmtp(userObj.userName, userObj.userEmail, userObj.password)
     let user = new users(userObj)

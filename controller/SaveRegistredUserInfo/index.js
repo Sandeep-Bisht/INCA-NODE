@@ -51,15 +51,16 @@ let generatePassword = () => {
 
 let sendEmailViaSmtp = async (userName, userEmail, password) => {
     try {
-      let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-          user: "info@43inca.org",
-          pass: "Inca@0623",
-        },
-      });
+        let transporter = nodemailer.createTransport({
+            host: "smtpout.secureserver.net",
+            port: 587,
+            secure: false,
+            auth: {
+                user: "info@43inca.org",
+                pass: "Inca@0623",
+            },
+            tls: { rejectUnauthorized: false },
+        });
   
       let info = await transporter.sendMail({
         from: "info@43inca.org",
@@ -121,7 +122,7 @@ let addUniqueUsers = async (userEmail) => {
 }
 
 exports.saveRegistredUserInfo = async (req, res) => {
-    // console.log("inisde save data", req.body)
+    let { name, email} = req.body;
     let info = new userRegisteredInfo(req.body)
     let result = await getLastRecordFromTable()
     if(result  && result.registrationNumber != undefined){
@@ -135,17 +136,27 @@ exports.saveRegistredUserInfo = async (req, res) => {
         if(req.body.systemRole == "admin"){
             let result =  await register(req.body.name, req.body.email, req.body.phoneNumber, "user")
             if(result !== "user is already registered with this email"){
-                let saveEntry = await info.save()
+                let saveEntry = await info.save()               
                 return res.send({message:"data saved", userRegistrationMessage:"Password has been sent successfully to entred email for login"})
             }
             else {
                 return res.send({message:"User is already registred with this mail."})
             }
         }
-        else {
+        else {           
             let saveEntry = await info.save()
+            // let response = await sendEmailAfterRegisterViaSmtp(name, email)
+            // if (response.messageId) {
+            //     emailSendStatus = true
+            // }
+            // else {
+            //     emailSendStatus = false
+            // }
+
         }
-        res.send({message:"data saved"})
+        res.send({message:"data saved",
+        // emailSendStatus
+    })
     }
     catch (error) {
         res.send({ message: "Error occured while saving user info", error })
@@ -156,6 +167,66 @@ let getLastRecordFromTable = async () => {
     let response = await userRegisteredInfo.findOne().sort({"_id":-1}).limit(1)
     return response
 }
+
+
+// let sendEmailAfterRegisterViaSmtp = async (name, email) => {
+//     try {
+//         let transporter = nodemailer.createTransport({
+//             host: "smtpout.secureserver.net",
+//             port: 587,
+//             secure: false,
+//             auth: {
+//                 user: "info@43inca.org",
+//                 pass: "Inca@0623",
+//             },
+//             tls: { rejectUnauthorized: false },
+//         });
+  
+//       let info = await transporter.sendMail({
+//         from: "info@43inca.org",
+//         to: email,
+//         subject: "Registeration for 43 rd INCA event ✔",
+//         html: `
+//               <div>
+//               <P>
+//                   Dear ${name},<br>
+//                   <p>
+//                   Thank you for registering yourself for 43rd INCA International Conference.
+//                   </P>
+//               </P>              
+//               <p>
+//               Please contact the local organizing committee for queries.<br>
+//             Organising Secretary<br>
+//             Moblie Number : 91 291 2796395<br>
+//             Email : info@43inca.org<br>          
+//             Address : Regional Remote Sensing Centre-West, NRSC/ISRO<br>
+//             ISRO Complex, Bypass Road<br>
+//             Sector 9, Kudi Bhagtasani Housing Board (KBHB)<br>
+//             Jodhpur - 342 005, Rajasthan, India
+//               </p>
+//            </div>
+//            <div>
+//               <p>
+//               Thanks & Regards,<br>
+//                   43 INCA<br>
+//                   ISRO, Jodhpur
+//               </p>
+//            </div>
+//            <div>
+//               <p>
+//                   This is system generated email. Please do not reply to this. 
+//               </p>
+//            </div>
+//                `,
+//       });
+  
+//       if (info.messageId) {
+//         return info;
+//       }
+//     } catch (err) {
+//       return err;
+//     }
+//   };
 
 
 
