@@ -47,6 +47,7 @@ const {
   getAbstractPaper,
   getAbstractPaperById,
   approveAbstractPaperByAdmin,
+  deleteAbstractPaper,
 } = require("../controller/AbstractFileSubmission");
 // ========================
 const { uploadUserFullPaperFiles, saveFullPaper, getFullPaper, getFullPaperById } = require('../controller/FullPaperSubmission')
@@ -85,11 +86,7 @@ router.put(
 router.get("/getsaveregistreduserinfo/:id", getRegistredUserInfoById);
 router.post("/savesponsor", saveSponsor);
 router.post("/uploaddocument", upload.single("file"), uploadUserFiles);
-router.post(
-  "/uploadfullPaperdocument",
-  upload.single("file"),
-  uploadUserFullPaperFiles
-);
+router.post("/uploadfullPaperdocument", upload.single("file"), uploadUserFullPaperFiles);
 
 router.post("/contact-us", checkAuthentication, contactInca);
 router.get("/sponsor", checkAuthentication, getSponsors);
@@ -97,6 +94,7 @@ router.get("/counters", checkAuthentication, getCounters);
 router.post("/saveabstractpaper", checkAuthentication, saveAbstractPaper);
 router.get("/getabstractpaper", checkAuthentication, getAbstractPaper);
 router.get("/getabstractpaper/:userId", getAbstractPaperById),
+router.delete("/delete_abstract_by_id/:abstractId", deleteAbstractPaper)
   router.put("/approvefilesubmission", approveAbstractPaperByAdmin);
 router.post("/fullPaperSubmition", checkAuthentication, saveFullPaper);
 router.get("/getFullPaperList", checkAuthentication, getFullPaper);

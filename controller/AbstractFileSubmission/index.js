@@ -14,15 +14,14 @@ exports.uploadUserFiles = async (req, res) => {
 
 exports.saveAbstractPaper = async (req, res) => {    
     
-    const { userName,authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, paperPresentationType, themeType , mannualPaymentStatus} = req.body
-    let result = await userRegisteredInfo.findOne({email: authorEmail}, {registrationNumber: 1})
+    const { userName, authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail,userEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, paperPresentationType, themeType , mannualPaymentStatus} = req.body
+    let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
     let registrationNumber = result?.registrationNumber
 
-    
     let abstractData = new abstractPaper({ userName,authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus,paperPresentationType, themeType, mannualPaymentStatus, registrationNumber})
     try {
 
-        let lastRecord = await getLastRecordFromTable(authorEmail)
+        let lastRecord = await getLastRecordFromTable(userEmail)
     if(lastRecord  && lastRecord.abstractNumber != undefined){
         let val =  parseInt(lastRecord.abstractNumber.split("A")[1]) + 1
         abstractData.abstractNumber = `43IA${val.toString().padStart(4, '0')}`;
@@ -59,6 +58,21 @@ exports.getAbstractPaperById = async (req, res) => {
     } catch (error) {
         res.send({ message: "Error occured while fetching records" })
     }
+}
+
+exports.deleteAbstractPaper = async (req, res) => {
+   
+    let id = req.params.abstractId
+    try {
+        let response = await abstractPaper.deleteOne({_id : id})
+        if(response){
+            res.send({ message : "Abstract deleted"})
+        }
+        
+    } catch (error) {
+        res.send({ message: "Error occured while deleting Abstract" })
+    }
+    // db.your_collection.deleteOne({ _id: ObjectId("your_object_id_here") });
 }
 
 
@@ -141,7 +155,7 @@ let sendEmailViaSmtp = async (userName, userEmail, status) => {
          </div>
          <div>
             <p>
-            *This is a system genrated email, please do not reply on this email.
+            *This is a system generated email, please do not reply on this email.
             </p>
          </div>`, // html body
         });
@@ -159,3 +173,4 @@ let getLastRecordFromTable = async () => {
     let response = await abstractPaper.findOne().sort({"_id":-1}).limit(1)
     return response
 }
+
