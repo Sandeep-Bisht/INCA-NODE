@@ -35,7 +35,7 @@ let register = async (userName, userEmail, mobileNumber, role) => {
             }
         }
         else {
-           return  "user is already registered with this email" 
+           return  "User is already registered with this email" 
         }
 }
 

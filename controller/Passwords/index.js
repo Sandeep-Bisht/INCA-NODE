@@ -60,7 +60,7 @@ let sendEmailViaSmtp = async (userName, userEmail, password) => {
          </div>
          <div>
             <p>
-            *This is a system genrated password, please do not delete this for future reference and do not reply on this email.
+            *This is a system generated password, please do not delete this for future reference and do not reply on this email.
             </p>
          </div>`, // html body
         });
