@@ -18,17 +18,17 @@ exports.downloadAbstractUserList = async (req, res) => {
                         "authorEmail":item.authorEmail,
                         "abstractPaperName":item.abstractPaperName,
                         "abstract":item.abstract,
-                        "subThemes":[],
+                        "subThemes":"",
                         "paperApproveStatus":item.paperApproveStatus
                     }
 
         if(item.themeType.length>0){
 
             item.themeType.map((el,ind)=>{
-                let arr =[];
+                let arr = "";
 
                 el.map((items)=>{
-                   return items.name ? arr.push(items.name) : null; 
+                   return items.name ? arr =  arr + items.name + ", " : null; 
                 })
                 itemCopy['subThemes'] = arr;
 
@@ -41,7 +41,6 @@ exports.downloadAbstractUserList = async (req, res) => {
     })
    } 
 
-//    console.log("usersListCopy",updatedList)
 
     
      
