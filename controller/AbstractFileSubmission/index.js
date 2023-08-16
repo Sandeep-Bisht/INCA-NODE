@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 let abstractPaper = require('../../models/abstractPaper')
+let onlyAbstractFile = require('../../models/onluAbstractFile')
 const userRegisteredInfo = require("../../models/registredUserInfo")
 
 
@@ -12,13 +13,41 @@ exports.uploadUserFiles = async (req, res) => {
     }
 }
 
-exports.saveAbstractPaper = async (req, res) => {    
+exports.saveOnlyAbstractFile = async (req, res) => {    
     
-    const { userName, authorSaluation, authorFirstName, authorMiddleName, authorLastName, authorEmail,userEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, paperPresentationType, themeType , mannualPaymentStatus} = req.body
+    console.log("inside save abstract file only", req.body)
+    const { userName,userEmail, mimetype, abstractPaperFileUrl, userId, paperApproveStatus,  mannualPaymentStatus} = req.body
     let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
     let registrationNumber = result?.registrationNumber
 
-    let abstractData = new abstractPaper({ userName,authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus,paperPresentationType, themeType, mannualPaymentStatus, registrationNumber})
+    let abstractFileData = new onlyAbstractFile({ userName,mimetype, abstractPaperFileUrl, userId, paperApproveStatus, mannualPaymentStatus, registrationNumber})
+    try {
+
+        let lastRecord = await getLastRecordFromOnlyAbstractFileTable(userEmail)
+    if(lastRecord  && lastRecord.abstractNumber != undefined){
+        let val =  parseInt(lastRecord.abstractNumber.split("F")[1]) + 1
+        abstractFileData.abstractNumber = `43IAF${val.toString().padStart(5, '0')}`;
+        // info.abstractNumber = `43IA${val}`
+    }
+    else {
+        abstractFileData.abstractNumber = "43IAF0005"
+    }
+        let result = await abstractFileData.save()
+       
+        res.send({ message: "data saved successfully", })
+    }
+    catch (error) {
+        res.send({ message: "Error occured while saving sponsor", error })
+    }
+}
+
+exports.saveAbstractPaper = async (req, res) => {    
+    
+    const { userName, authorSaluation, authorFirstName, authorMiddleName,abstractPaperFileUrl, authorLastName, authorEmail,userEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus, paperPresentationType, themeType , mannualPaymentStatus} = req.body
+    let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
+    let registrationNumber = result?.registrationNumber
+
+    let abstractData = new abstractPaper({ userName,userEmail,authorSaluation,abstractPaperFileUrl, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, abstractPaperName, mimetype, abstract, userId, paperApproveStatus,paperPresentationType, themeType, mannualPaymentStatus, registrationNumber})
     try {
 
         let lastRecord = await getLastRecordFromTable(userEmail)
@@ -171,6 +200,11 @@ let sendEmailViaSmtp = async (userName, userEmail, status) => {
 
 let getLastRecordFromTable = async () => {
     let response = await abstractPaper.findOne().sort({"_id":-1}).limit(1)
+    return response
+}
+
+let getLastRecordFromOnlyAbstractFileTable = async () => {
+    let response = await onlyAbstractFile.findOne().sort({"_id":-1}).limit(1)
     return response
 }
 

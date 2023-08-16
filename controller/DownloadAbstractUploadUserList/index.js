@@ -2,35 +2,24 @@ const excel = require("exceljs");
 const merge = require('deepmerge')
 let abstractPaper = require('../../models/abstractPaper')
 let registredUserInfo = require('../../models/registredUserInfo')
-exports.downloadAbstractUserList = async (req, res) => {
-    let response = await registredUserInfo.find({}, {designation:1, registrationCategory:1, participationType:1, email:1})
-    let arr = []
-    const usersList = await abstractPaper.find()
-    for(let el of response){
-        for(item of usersList){
-            if(el.email === item.authorEmail){
-                const merged = merge(el, item)
-                arr.push(merged._doc)
-            }
-        }
-    }
+exports.downloadAbstractUserList = async (req, res) => {   
+    const usersList = await abstractPaper.find()    
+     
 
     try {
         let workbook = new excel.Workbook();
-        let worksheet = workbook.addWorksheet("arr");
+        let worksheet = workbook.addWorksheet("usersList");
         worksheet.columns = [
             { header: "Registration Number", key:"registrationNumber"},
             { header: "Abstract Number", key:"abstractNumber"},
             { header: "Name", key: "userName", },
             { header: "Email", key: "authorEmail", },
             { header: "Abstract Title", key: "abstractPaperName",},
+            { header: "Abstract", key: "abstract",},
             { header:"Theme", key:"themeType",},
-            { header: "Designation", key:"designation"},
-            { header: "Registration Category", key: "registrationCategory" },
-            { header: "Participation Type", key: "participationType"},
             { header: "Paper Status", key: "paperApproveStatus"}
         ];
-        worksheet.addRows(arr);
+        worksheet.addRows(usersList);
         res.setHeader(
             "Content-Type",
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
