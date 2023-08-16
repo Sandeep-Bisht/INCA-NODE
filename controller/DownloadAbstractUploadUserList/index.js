@@ -19,7 +19,18 @@ exports.downloadAbstractUserList = async (req, res) => {
                         "abstractPaperName":item.abstractPaperName,
                         "abstract":item.abstract,
                         "subThemes":"",
-                        "paperApproveStatus":item.paperApproveStatus
+                        "paperApproveStatus":item.paperApproveStatus,
+                        "createdAt":item.createdAt,
+                        "coAuthor":"",
+                    }
+                    if(item.coAuthorDetails.length> 0){
+                        // console.log("co-authorrrrrr",item.coAuthorDetails)
+                        let arr = "";
+                        item.coAuthorDetails.map((element) => {                           
+                             arr = arr + element.coAuthorFirstName + element.coAuthorMiddleName + element.coAuthorLastName + ",  "
+                             return console.log("array", arr)
+                        })
+                        itemCopy['coAuthor'] = arr;
                     }
 
         if(item.themeType.length>0){
@@ -28,7 +39,7 @@ exports.downloadAbstractUserList = async (req, res) => {
                 let arr = "";
 
                 el.map((items)=>{
-                   return items.name ? arr =  arr + items.name + ", " : null; 
+                   return items.name ? arr =  arr + items.name + ",  " : null; 
                 })
                 itemCopy['subThemes'] = arr;
 
@@ -36,6 +47,7 @@ exports.downloadAbstractUserList = async (req, res) => {
             })
             
         }
+        // console.log("itemmmmmmmmm", item)
 
         return updatedList.push(itemCopy);
     })
@@ -51,8 +63,11 @@ exports.downloadAbstractUserList = async (req, res) => {
         worksheet.columns = [
             { header: "Registration Number", key:"registrationNumber"},
             { header: "Abstract Number", key:"abstractNumber"},
+            { header: "Submitted on", key: "createdAt", },
             { header: "Name", key: "userName", },
             { header: "Email", key: "authorEmail", },
+            { header: "Co-Author", key: "coAuthor", },
+            { header: "Submitted on", key: "createdAt", },
             { header: "Abstract Title", key: "abstractPaperName",},
             { header: "Abstract", key: "abstract",},
             { header:"Sub-Themes", key:"subThemes",},
