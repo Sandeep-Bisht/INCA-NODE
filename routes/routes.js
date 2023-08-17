@@ -31,7 +31,7 @@ const { register } = require("../controller/Register/register");
 const { login } = require("../controller/Login/login");
 const { checkAuthentication } = require("../middleware");
 const { forgotPassword } = require("../controller/Passwords");
-const { getUsers, deleteUser } = require("../controller/users/user");
+const { getUsers, deactivateUser, activateUser } = require("../controller/users/user");
 const {
   saveRegistredUserInfo,
 } = require("../controller/SaveRegistredUserInfo");
@@ -96,7 +96,9 @@ router.post("/saveabstractpaper", checkAuthentication, saveAbstractPaper);
 router.post("/saveOnlyAbstractFile", checkAuthentication, saveAbstractPaper);
 router.get("/getabstractpaper", checkAuthentication, getAbstractPaper);
 router.get("/getabstractpaper/:userId", getAbstractPaperById),
-router.delete("/delete_abstract_by_id/:abstractId", deleteAbstractPaper)
+router.delete("/delete_abstract_by_id/:abstractId", deleteAbstractPaper),
+router.delete("/delete_user_by_id/:userId", deactivateUser),
+router.put("/activate_user_by_id/:userId", activateUser),
   router.put("/approvefilesubmission", approveAbstractPaperByAdmin);
 router.post("/fullPaperSubmition", checkAuthentication, saveFullPaper);
 router.get("/getFullPaperList", checkAuthentication, getFullPaper);

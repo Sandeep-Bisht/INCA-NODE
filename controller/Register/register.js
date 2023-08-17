@@ -164,3 +164,17 @@ exports.register = async (req, res) => {
     res.send({ message: "Please fill all the fields" });
   }
 };
+
+exports.deleteUser = async (req, res) => {
+   
+  let id = req.params.userId
+  try {
+      let response = await users.deleteOne({_id : id})
+      if(response){
+          res.send({ message : "User deleted"})
+      }
+      
+  } catch (error) {
+      res.send({ message: "Error occured while deleting User" })
+  }
+}
