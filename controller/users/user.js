@@ -30,12 +30,10 @@ exports.deactivateUser = async (req, res) => {
 exports.activateUser = async (req, res) => {
    
     let id = req.params.userId;
-    console.log("inside delete user", id)
     try {
         let user = await users.findOne({ _id: id });        
          if(user){
             user.status = true;
-            console.log("userrrr", user)
             let result = await user.save()
         if(result){
             res.send({ message: "User activated successfully" });
