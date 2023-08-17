@@ -11,7 +11,6 @@ let generatePassword = () => {
 }
 
 let sendEmailViaSmtp = async (userName, userEmail, password) => {
-    console.log("inside emailll", userName, userEmail, password)
     try {
         let transporter = nodemailer.createTransport({
             host: "smtpout.secureserver.net",
@@ -78,7 +77,6 @@ let sendEmailViaSmtp = async (userName, userEmail, password) => {
 exports.forgotPassword = async (req, res) => {
     
     let { userEmail } = req.body
-    console.log("inside forgot password",userEmail)
     let userObj = await users.findOne({ userEmail })
     if (userObj == null) return res.send({ message: "Please enter registred email address" });
     userObj.password = generatePassword()

@@ -15,7 +15,6 @@ exports.uploadUserFiles = async (req, res) => {
 
 exports.saveOnlyAbstractFile = async (req, res) => {    
     
-    console.log("inside save abstract file only", req.body)
     const { userName,userEmail, mimetype, abstractPaperFileUrl, userId, paperApproveStatus,  mannualPaymentStatus} = req.body
     let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
     let registrationNumber = result?.registrationNumber
@@ -106,12 +105,10 @@ exports.deleteAbstractPaper = async (req, res) => {
 
 
 exports.approveAbstractPaperByAdmin = async (req, res) => {
-    // console.log("inside approve abstarct", req.body)
     let { docsId, paperApproveStatus } = req.body
     try {
         let userPaper = await abstractPaper.findById(docsId)
         userPaper.paperApproveStatus = paperApproveStatus
-        // console.log("inside userPaper abstarct", userPaper)
         let abstractData = new abstractPaper(userPaper)
         let result = await abstractData.save();
         if(paperApproveStatus){
@@ -138,7 +135,6 @@ exports.approveAbstractPaperByAdmin = async (req, res) => {
 }
 
 let sendEmailViaSmtp = async (userName, userEmail, status) => {
-    // console.log("inside send email",userName, userEmail,status)
     try {
         let transporter = nodemailer.createTransport({
             host: "smtpout.secureserver.net",
@@ -160,7 +156,7 @@ let sendEmailViaSmtp = async (userName, userEmail, status) => {
             <P>
                 Dear ${userName},<br>
                 <p>
-                    Your Abstract is ${status} for 43<sup>rd</sup> INCA International Congress. Please pay the fee if not paid to confirm your participation the event.              
+                    Your Abstract is ${status} for 43<sup>rd</sup> INCA International Congress. Please pay the fee if not paid to confirm your participation in the event.              
                 </P>
             </P>
             <p>

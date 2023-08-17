@@ -12,7 +12,6 @@ exports.uploadUserFullPaperFiles = async (req, res) => {
 
 exports.saveFullPaper = async (req, res) => {
      const {userName, authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, coAuthorDetails, paperPresentationType, fullPaperName, mimetype, fullPaperFileUrl, themeType, userId, userEmail} = req.body
-    //  console.log("inisde save full paper", req.body)
      let result = await userRegisteredInfo.findOne({email: userEmail}, {registrationNumber: 1})
      let registrationNumber = result?.registrationNumber;
     let fullPaperData = new fullPaper({userName, authorSaluation, authorFirstName, authorMiddleName,authorLastName, authorEmail, authorAffiliation, paperPresentationType, coAuthorDetails, fullPaperName, mimetype, fullPaperFileUrl, themeType, userId,  registrationNumber})        
