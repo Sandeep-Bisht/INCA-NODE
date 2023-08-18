@@ -4,7 +4,7 @@ exports.saveExhibitorData = async (req, res) => {
     let exhibitorData = new saveExhibitor(req.body)
     try {
         let result = await exhibitorData.save()
-       return res.send({ message: "exhibitor save successfully" })
+       return res.send({ message: "Exhibitor save successfully" })
     }
     catch (error) {
      return   res.send({ message: "Error occured while saving exhibitorsss", error })

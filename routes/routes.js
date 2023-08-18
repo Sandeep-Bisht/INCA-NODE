@@ -30,7 +30,7 @@ const upload = multer({ storage: fileStorageEngine, fileFilter: fileFilter });
 const { register } = require("../controller/Register/register");
 const { login } = require("../controller/Login/login");
 const { checkAuthentication } = require("../middleware");
-const { forgotPassword } = require("../controller/Passwords");
+const { forgotPassword, resetPassword} = require("../controller/Passwords");
 const { getUsers, deactivateUser, activateUser } = require("../controller/users/user");
 const {
   saveRegistredUserInfo,
@@ -123,6 +123,7 @@ router.post('/markattendances', verifyAttendanceStatusByPassword )
 router.get('/getuserinfoforattendance/:id', getUserInfoForAttendance)
 
 router.put('/forgot', forgotPassword)
+router.post('/reset-password', resetPassword)
 router.post('/payment', paymentIntegration)
 router.post('/exhibitor', saveExhibitorData )
 router.get('/getexhibitor', getExhibitorData)

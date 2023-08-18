@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 var generator = require('generate-password');
+var jwt = require('jsonwebtoken');
 let users = require('../../models/user');
 
 let generatePassword = () => {
@@ -10,7 +11,7 @@ let generatePassword = () => {
     return password
 }
 
-let sendEmailViaSmtp = async (userName, userEmail, password) => {
+let sendEmailViaSmtp = async (userName, userEmail, token) => {
     try {
         let transporter = nodemailer.createTransport({
             host: "smtpout.secureserver.net",
@@ -27,17 +28,16 @@ let sendEmailViaSmtp = async (userName, userEmail, password) => {
         let info = await transporter.sendMail({
             from: 'info@43inca.org',
             to: userEmail,
-            subject: "New Password for 43 rd INCA event ✔",
+            subject: "Reset Password for 43 rd INCA event ✔",
             html: `<div>
             <P>
                 Dear ${userName},<br>
                 <p>
-                Please use the new password for login on 43<sup>nd</sup> INCA International Congress.                
+                Please click the below link to create new password for  43<sup>rd</sup> INCA International Congress. 
+                           
                 </P>
-            </P>
-             <p>
-                Password : ${password}</b>
-            </p>
+                <p>${ `https://43inca.org/reset-password/${token}`}</p>
+            </P>             
             <p>
             Please contact the local organizing committee for queries.<br>
             Organising Secretary<br>
@@ -73,24 +73,62 @@ let sendEmailViaSmtp = async (userName, userEmail, password) => {
     }
 }
 
+function generateAccessToken(user) {
+    return jwt.sign({ user }, "6210607b75c134501baa290c", { expiresIn: '600s' });
+}
+
 
 exports.forgotPassword = async (req, res) => {
-    
-    let { userEmail } = req.body
-    let userObj = await users.findOne({ userEmail })
-    if (userObj == null) return res.send({ message: "Please enter registred email address" });
-    userObj.password = generatePassword()
-    let result = await sendEmailViaSmtp(userObj.userName, userObj.userEmail, userObj.password)
-    let user = new users(userObj)
-    if (result.messageId) {
-        let saveEntry = await user.save()
-        res.send({ message: "Password has been successfully sent to your registred email, please check your registred email for Credentials.", })
-    }
-    else {
-        res.send({message:"Error while sending the new password."})
-    }
+    try {
+        const { userEmail } = req.body;
+        const userObj = await users.findOne({ userEmail });
 
-}
+        if (!userObj) {
+            return res.send({ message: "Please enter a registered email address" });
+        }
+
+        const token = generateAccessToken({ userObj });
+        userObj.token = token; // Update the token in the user document
+        await userObj.save(); // Save the updated user document
+        // const checkUser = await users.findOne({ userEmail });
+        // console.log("checkUser ", checkUser)
+
+        const result = await sendEmailViaSmtp(userObj.userName, userObj.userEmail, token);
+        if (result.messageId) {
+            res.send({ token, message: "Password reset link has been sent successfully" });
+        } else {
+            res.send({ message: "Error while sending the password reset link." });
+        }
+    } catch (error) {
+        res.status(500).send({ message: "Internal server error" });
+    }
+};
+
+
+
+
+exports.resetPassword = async (req, res) => {
+    let { password, token } = req.body;
+    
+    try {
+        const decoded = jwt.verify(token.id, "6210607b75c134501baa290c");
+        let userEmail = decoded.user.userObj.userEmail;
+        const user = await users.findOne({ userEmail });
+            user.password = password
+          let result =await user.save()
+        // Continue with your reset password logic using the decoded payload
+        // For example, update the user's password in the database
+        // ...
+
+        // Send a response indicating success
+        if(result){
+            res.send({ message: "Password reset successful." });
+        }        
+    } catch (error) {
+        res.status(400).send({ message: "Invalid token or token has expired." });
+    }
+};
+
 
 
 
