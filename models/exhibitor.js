@@ -5,8 +5,10 @@ const exhibitorSchema = new Schema({
     email : { type: String, require: true, },
     mobile:{ type:String, require:true },
     companyName: { type: String, require:true },
+    amount: {type : String, require:true},
+    exhibitorType: { type : String, require:true},
     // sponsorType: { type: String, require:true },
-    exhibitionFee: { type: String, require:true },
+    // exhibitionFee: { type: String, require:true },
     
 },{timestamps: true} 
 )
