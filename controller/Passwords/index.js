@@ -2,6 +2,7 @@ const nodemailer = require("nodemailer");
 var generator = require('generate-password');
 var jwt = require('jsonwebtoken');
 let users = require('../../models/user');
+const { Error } = require("mongoose");
 
 let generatePassword = () => {
     let password = generator.generate({
@@ -36,7 +37,7 @@ let sendEmailViaSmtp = async (userName, userEmail, token) => {
                 Please click the below link to create new password for  43<sup>rd</sup> INCA International Congress. 
                            
                 </P>
-                <p>${ `https://43inca.org/reset-password/${token}`}</p>
+                <p>${`https://43inca.org/reset-password/${token}`}</p>
             </P>             
             <p>
             Please contact the local organizing committee for queries.<br>
@@ -73,8 +74,8 @@ let sendEmailViaSmtp = async (userName, userEmail, token) => {
     }
 }
 
-function generateAccessToken(user) {
-    return jwt.sign({ user }, "6210607b75c134501baa290c", { expiresIn: '600s' });
+function generateAccessToken(userEmail) {
+    return jwt.sign({ userEmail }, "6210607b75c134501baa290c", { expiresIn: '1000s' });
 }
 
 
@@ -86,11 +87,11 @@ exports.forgotPassword = async (req, res) => {
         if (!userObj) {
             return res.send({ message: "Please enter a registered email address" });
         }
-
-        const token = generateAccessToken({ userObj });
+        
+        const token = generateAccessToken({ userEmail});
         userObj.token = token; // Update the token in the user document
         await userObj.save(); // Save the updated user document
-        // const checkUser = await users.findOne({ userEmail });
+         const checkUser = await users.findOne({ userEmail });
         // console.log("checkUser ", checkUser)
 
         const result = await sendEmailViaSmtp(userObj.userName, userObj.userEmail, token);
@@ -100,6 +101,7 @@ exports.forgotPassword = async (req, res) => {
             res.send({ message: "Error while sending the password reset link." });
         }
     } catch (error) {
+        // console.log("error", error)
         res.status(500).send({ message: "Internal server error" });
     }
 };
@@ -108,11 +110,12 @@ exports.forgotPassword = async (req, res) => {
 
 
 exports.resetPassword = async (req, res) => {
-    let { password, token } = req.body;
+    const { password, token } = req.body;
     
     try {
         const decoded = jwt.verify(token.id, "6210607b75c134501baa290c");
-        let userEmail = decoded.user.userObj.userEmail;
+        // console.log("deocde", decoded)
+        let userEmail = await  decoded.userEmail.userEmail;
         const user = await users.findOne({ userEmail });
             user.password = password
           let result =await user.save()
@@ -125,6 +128,7 @@ exports.resetPassword = async (req, res) => {
             res.send({ message: "Password reset successful." });
         }        
     } catch (error) {
+        // console.log("error", error)
         res.status(400).send({ message: "Invalid token or token has expired." });
     }
 };
