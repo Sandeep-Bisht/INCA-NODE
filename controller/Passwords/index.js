@@ -37,7 +37,7 @@ let sendEmailViaSmtp = async (userName, userEmail, token) => {
                 Please click the below link to create new password for  43<sup>rd</sup> INCA International Congress. 
                            
                 </P>
-                <p>${ `http://localhost:3000/reset-password/${token}`}</p>
+                <p>${`https://43inca.org/reset-password/${token}`}</p>
             </P>             
             <p>
             Please contact the local organizing committee for queries.<br>
