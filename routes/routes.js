@@ -31,7 +31,7 @@ const { register } = require("../controller/Register/register");
 const { login } = require("../controller/Login/login");
 const { checkAuthentication } = require("../middleware");
 const { forgotPassword, resetPassword} = require("../controller/Passwords");
-const { getUsers, deactivateUser, activateUser } = require("../controller/users/user");
+const { getUsers, deactivateUser, activateUser, getUserExcel } = require("../controller/users/user");
 const {
   saveRegistredUserInfo,
 } = require("../controller/SaveRegistredUserInfo");
@@ -104,6 +104,7 @@ router.post("/fullPaperSubmition", checkAuthentication, saveFullPaper);
 router.get("/getFullPaperList", checkAuthentication, getFullPaper);
 router.get("/getFullPaperList/:userId", getFullPaperById),
   router.get("/downloadexcel", getRegistredUserExcel),
+  router.get("/downloadUserexcel", getUserExcel),
   router.post("/attendance/:id", checkAuthentication, verifyAttendanceStatus);
 router.post("/markattendances", verifyAttendanceStatusByPassword);
 router.get("/getuserinfoforattendance/:id", getUserInfoForAttendance);

@@ -1,4 +1,5 @@
 let users = require('../../models/user')
+const excel = require("exceljs");
 exports.getUsers = async (req, res) => {
     try {
         // let response = await users.find({})
@@ -45,4 +46,39 @@ exports.activateUser = async (req, res) => {
     } catch (error) {
         res.send({ message: "Error occured while activating user" })
     }
+}
+
+exports.getUserExcel = async (req, res) => {
+    try {
+        
+        const usersData = await users.find();
+
+        let workbook = new excel.Workbook();
+        let worksheet = workbook.addWorksheet("usersData");
+        worksheet.columns = [
+            { header: "Name", key: "userName", },
+            { header: "Phone Number", key: "mobileNumber", },
+            { header: "Email", key: "userEmail", },
+        ];
+
+        // Add Array Rows
+        
+        
+        worksheet.addRows(usersData);
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=" + "user.xlsx"
+        );
+        return workbook.xlsx.write(res).then(function () {
+            res.status(200).end();
+        });
+
+    } catch (error) {
+        res.send({ message: "Error occured while fetching records" })
+    }
+
 }
