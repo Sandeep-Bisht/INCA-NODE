@@ -12,6 +12,16 @@ const fileStorageEngine = multer.diskStorage({
   },
 });
 
+const presentationFileStorageEngine = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // console.log(req.body, "check req boday  inside destinantion",file)
+    cb(null, "./files");
+  },
+  filename: (req, file, cb) => {
+    cb(null,req.body.registrationNumber + "--" + Date.now() + "--" + file.originalname);
+  },
+});
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "application/pdf" ||
@@ -26,6 +36,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: fileStorageEngine, fileFilter: fileFilter });
+const uploadPresentation = multer({ storage: presentationFileStorageEngine, fileFilter: fileFilter });
 
 const { register } = require("../controller/Register/register");
 const { login } = require("../controller/Login/login");
@@ -70,13 +81,17 @@ const { handle404Route } = require('../controller/404');
 const { contactInca } = require("../controller/ContactUsController")
 
 
+const { updateRegisterUsersFee } = require("../controller/GetRegistredUserInfo");
+const { getPresentationById, uploadPresentationFiles, presentation } = require("../controller/UploadPresentation");
+
+
 router.post("/signup", register);
 router.post("/login", login);
 router.get("/users", checkAuthentication, getUsers);
 router.post("/saveregistreduser", checkAuthentication, saveRegistredUserInfo);
 router.get(
   "/getregistreduserinfo",
-  checkAuthentication,
+  
   getAllRegistredUsersData
 );
 router.put(
@@ -88,6 +103,8 @@ router.get("/getsaveregistreduserinfo/:id", getRegistredUserInfoById);
 router.post("/savesponsor", saveSponsor);
 router.post("/uploaddocument", upload.single("file"), uploadUserFiles);
 router.post("/uploadfullPaperdocument", upload.single("file"), uploadUserFullPaperFiles);
+router.get("/getPresentationById/:userId", getPresentationById),
+router.post("/uploadPresentationFile", uploadPresentation.single("file"), presentation);
 
 router.post("/contact-us", checkAuthentication, contactInca);
 router.get("/sponsor", checkAuthentication, getSponsors);
@@ -140,6 +157,7 @@ router.get('/userexcel',downloadUserExcelList )
 router.get('/generate_certificate/:id', getUserInfoForCertificate)
 router.get('/sendemailtodownloadcertificate/:id', sendEmailToUserForDownloadCertificate )
 router.get('/sendEmailToAllUsers/:id', sendEmailToAllUsers )
+router.get('/updateRegisterUsersFee',updateRegisterUsersFee)
 // sendEmailToAllUsers
 router.get('/getuserinfo/:id', getRegistredUserInfoByEmail)
 // getRegistredUserInfoByEmail

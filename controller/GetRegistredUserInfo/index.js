@@ -74,3 +74,43 @@ exports.getRegistredUserInfoById = async(req, res) => {
 } 
 
 
+exports.updateRegisterUsersFee = async(req,res) =>{
+    try {
+        let response = await registredUserInfo.find()
+
+        let updatedData = [];
+    try{
+        response.map(async(items)=>{
+            let updatedFee = 0;
+            if(items.registrationCategory == "Others (participants/delegates/members)" && items.nationality == "indian"){
+                updatedFee = updatedFee + 4130;
+            }
+
+            if(items.registrationCategory == "Life Members" && items.nationality == "indian"){
+                updatedFee = updatedFee + 3540;
+            }
+
+            if(items.registrationCategory == "For Students" && items.nationality == "indian"){
+                updatedFee = updatedFee + 2360;
+            }
+            
+            let accompningPerson = items.accompanningPerson.length;
+            updatedFee = updatedFee + (accompningPerson * 2950)
+
+            const updateUser = await registredUserInfo.findOneAndUpdate({_id:items._id},{$set:{registrationFee:`₹ ${updatedFee} including 18% GST`}},{new:true});
+            return updateUser;
+            // items["updatedFee"] = `₹ ${updatedFee} including 18% GST`
+            // console.log(updatedFee,'update fee is this')
+            // updatedData.push({...items._doc,updatedFee:`₹ ${updatedFee} including 18% GST`});
+            
+        })
+    }
+    catch(err){
+        console.log("error updating charges.")
+    }
+    res.send(updatedData)
+    } catch (error) {
+        res.send({ message: "Error occured while fetching records" })
+    }
+}
+
