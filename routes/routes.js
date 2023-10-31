@@ -27,7 +27,8 @@ const fileFilter = (req, file, cb) => {
     file.mimetype === "application/pdf" ||
     file.mimetype === "text/plain" ||
     file.mimetype ===
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+      file.mimetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation" // Accepts .pptx files
   ) {
     cb(null, true);
   } else {
